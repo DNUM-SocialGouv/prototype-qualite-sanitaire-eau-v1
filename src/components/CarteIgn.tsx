@@ -14,6 +14,8 @@ type Props = {
   /** Emprise à afficher au chargement ; à défaut, la France métropolitaine. */
   emprise?: LatLngBoundsExpression;
   onPrete?: (carte: CarteLeaflet) => void;
+  /** Contrôles posés en bas à gauche de la carte (bouton Territoires…). */
+  controlesGauche?: ReactNode;
   /** Masque les boutons de zoom et de réglages (écran du choix du secteur, comme la maquette). */
   sansControles?: boolean;
   className?: string;
@@ -23,7 +25,7 @@ type Props = {
  * Carte IGN (Leaflet + Géoplateforme). Le contrôle de zoom Leaflet est remplacé par des boutons DSFR ;
  * déplacement, double-clic, pincement et clavier restent ceux de Leaflet.
  */
-export function CarteIgn({ children, surCarte, emprise, onPrete, sansControles, className }: Props) {
+export function CarteIgn({ children, surCarte, controlesGauche, emprise, onPrete, sansControles, className }: Props) {
   const idPanneau = useId();
   const [carte, setCarte] = useState<CarteLeaflet | null>(null);
   const [fond, setFond] = useState<FondCarte>("plan");
@@ -99,6 +101,9 @@ export function CarteIgn({ children, surCarte, emprise, onPrete, sansControles, 
             )}
           </div>
         </div>
+      )}
+      {!sansControles && controlesGauche && (
+        <div className="carte-ign__controles carte-ign__controles--gauche">{controlesGauche}</div>
       )}
       {surCarte}
     </div>

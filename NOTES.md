@@ -14,6 +14,7 @@
 | Note A B C D | Fiche UDI, Analyses, Paramètre | Pas d'équivalent DSFR. Composant custom, couleurs DSFR. |
 | Repères numérotés 1 à 4 | Fiche UDI, « Votre secteur » | Pas d'équivalent DSFR. Liste ordonnée custom, couleurs DSFR. |
 | Graphique d'évolution | Volet Paramètre | DSFR Chart ne gère a priori ni le seuil en pointillés ni la ligne verticale du prélèvement affiché (à confirmer à l'installation). Graphique SVG custom, couleurs DSFR. Le tableau sert d'alternative accessible. |
+| Sélecteur de territoires (grille de vignettes) | Écran carte, bouton Territoires | **Adaptation** des boutons radio riches DSFR (`fr-radio-rich`) : vrai groupe de boutons radio (`fieldset`, `legend` masquée « Territoire à afficher », navigation par les flèches), présenté en grille de 3 vignettes. Mise en page en CSS avec les tokens DSFR (bordure `--border-default-grey`, sélection en 2 px `--border-active-blue-france` sur fond `--background-action-low-blue-france`, focus DSFR). |
 | Bandes noires autour de la colonne mobile | Ordinateur et tablette (≥ 576 px) | Mise en page de présentation, sans équivalent DSFR. **Exception validée** : fond noir `#000` (le noir n'est pas un token DSFR). Voir « Colonne mobile » dans le socle technique. |
 
 ## Décisions validées
@@ -48,6 +49,13 @@
 - **Accessibilité** : le titre est le titre de la modale (`aria-labelledby`). Le DSFR 1.14 piège le focus mais ne rend pas le reste de la page inerte : tant que la modale est ouverte, les autres éléments de la page reçoivent l'attribut `inert`.
 - **Mémorisation** : l'acceptation est gardée dans `sessionStorage` (avec try/catch). La modale ne réapparaît ni à chaque page ni au rechargement pendant la session, mais elle réapparaît dans un nouvel onglet ou après fermeture du navigateur. Si le stockage est indisponible, elle réapparaît à chaque chargement.
 - **Colonne mobile** : la modale fait partie de l'application, donc sur ordinateur elle s'affiche dans l'iframe de 390 px, et une seule fois (la page parente n'affiche que l'iframe).
+
+### Bouton et sélecteur de territoires (écran carte, v2)
+- **Bouton Territoires** : en bas à gauche de la carte, aligné sur le bouton des réglages à droite, avec le même style que les autres contrôles de la carte (bouton DSFR tertiaire sur fond blanc, ombre DSFR). Icône `fr-icon-france-line`, `title` et `aria-label` « Choisir un territoire ». Il fait 40 px comme les contrôles existants (48 px sur la maquette), pour rester aligné sur eux. Quand la légende des zones est affichée à gauche, elle passe au-dessus du bouton.
+- **Sélecteur** (`src/components/SelecteurTerritoires.tsx`) : il remplace la carte et la recherche, sous la bascule Eau potable / Baignade qui reste visible. La carte reste montée, masquée : à la fermeture, elle garde son fond et son mode. En-tête lavande `--background-alt-blue-france` avec le titre « Sélecteur de territoires » (h2) et le bouton ✕ (tertiaire sans bordure). Comme sur la maquette, il n'y a pas d'icône devant le titre.
+- **Silhouettes** : exportées de Figma dans `src/assets/territoires/` (viewBox 56 × 56, remplissage `currentColor`) et insérées en ligne (import `?raw`) pour prendre le bleu France du DSFR.
+- **Interactions** : le territoire courant est présélectionné (France hexagonale par défaut) et reçoit le focus à l'ouverture. Un clic choisit le territoire. Au clavier, les flèches changent seulement l'option active, et Entrée ou Espace la valident, pour éviter les fermetures intempestives. Le choix ferme le sélecteur et recentre la carte sur l'emprise du territoire (`fitBounds`, emprises dans `src/lib/territoires.ts`). ✕ et Échap ferment sans changer de territoire. À la fermeture, le focus revient sur le bouton Territoires.
+- **Outre-mer** : le prototype n'a pas de données pour les outre-mer, la carte s'y déplace seulement. Les marqueurs et les zones existants ne changent pas.
 
 ### Volets
 - Fermeture par « Fermer », Échap ou clic sur le fond.

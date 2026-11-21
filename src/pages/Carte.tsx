@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CircleMarker } from "react-leaflet";
 import type { Map as CarteLeaflet } from "leaflet";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
 import { EcranCarte } from "../components/EcranCarte";
 import { CarteIgn } from "../components/CarteIgn";
@@ -10,8 +11,10 @@ import { BasculeTypeEau } from "../components/BasculeTypeEau";
 import { RechercheCarte } from "../components/RechercheCarte";
 import { ZonesSecteurs } from "../components/ZonesSecteurs";
 import { LegendeZone } from "../components/LegendeZone";
+import { SelecteurTerritoires } from "../components/SelecteurTerritoires";
 import { TOUS_LES_SECTEURS } from "../lib/secteurs";
 import { VUE_FRANCE } from "../lib/carte";
+import { TERRITOIRE_PAR_DEFAUT, territoire as trouverTerritoire, type IdTerritoire } from "../lib/territoires";
 import type { TypeEau } from "../lib/recherche";
 
 /** Zoom à partir duquel les secteurs de distribution s’affichent (une agglomération et sa région). */
@@ -24,6 +27,34 @@ export function Carte() {
   const [zoom, setZoom] = useState(VUE_FRANCE.zoom);
   const [position, setPosition] = useState<[number, number]>();
   const secteursVisibles = typeEau === "potable" && zoom >= ZOOM_SECTEURS;
+  const idBoutonTerritoires = useId();
+  const [selecteurOuvert, setSelecteurOuvert] = useState(false);
+  const [territoire, setTerritoire] = useState<IdTerritoire>(TERRITOIRE_PAR_DEFAUT);
+  const aRecentrer = useRef(false);
+
+  const fermerSelecteur = useCallback(() => setSelecteurOuvert(false), []);
+  const choisirTerritoire = useCallback((id: IdTerritoire) => {
+    setTerritoire(id);
+    aRecentrer.current = true;
+    setSelecteurOuvert(false);
+  }, []);
+
+  // Sélecteur fermé : la carte réapparaît (taille recalculée), recentrée si un territoire a été choisi,
+  // et le focus revient au bouton Territoires.
+  const dejaOuvert = useRef(false);
+  useEffect(() => {
+    if (selecteurOuvert) {
+      dejaOuvert.current = true;
+      return;
+    }
+    if (!dejaOuvert.current) return;
+    carte?.invalidateSize();
+    if (aRecentrer.current) {
+      aRecentrer.current = false;
+      carte?.fitBounds(trouverTerritoire(territoire).emprise, { padding: [16, 16] });
+    }
+    document.getElementById(idBoutonTerritoires)?.focus();
+  }, [selecteurOuvert, carte, territoire, idBoutonTerritoires]);
 
   useEffect(() => {
     if (!carte) return;
@@ -57,10 +88,28 @@ export function Carte() {
           </div>
         }
         carte={
-          <CarteIgn onPrete={setCarte} surCarte={secteursVisibles && <LegendeZone aGauche />}>
+          <CarteIgn
+            onPrete={setCarte}
+            surCarte={secteursVisibles && <LegendeZone aGauche />}
+            controlesGauche={
+              <Button
+                id={idBoutonTerritoires}
+                iconId="fr-icon-france-line"
+                priority="tertiary"
+                title="Choisir un territoire"
+                nativeButtonProps={{ "aria-label": "Choisir un territoire" }}
+                onClick={() => setSelecteurOuvert(true)}
+              />
+            }
+          >
             {secteursVisibles && <ZonesSecteurs secteurs={TOUS_LES_SECTEURS} />}
             {position && <CircleMarker center={position} radius={8} className="carte-ign__position" />}
           </CarteIgn>
+        }
+        remplacement={
+          selecteurOuvert && (
+            <SelecteurTerritoires valeur={territoire} onChoix={choisirTerritoire} onFermer={fermerSelecteur} />
+          )
         }
         panneau={
           typeEau === "potable" ? (
