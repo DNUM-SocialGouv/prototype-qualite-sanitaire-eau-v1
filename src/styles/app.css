@@ -777,6 +777,8 @@ html.cadre-mobile body {
 }
 
 .selecteur-territoires__entete h2 {
+  display: flex;
+  align-items: center;
   color: var(--text-title-blue-france);
 }
 

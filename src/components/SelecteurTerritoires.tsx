@@ -45,6 +45,7 @@ export function SelecteurTerritoires({ valeur, onChoix, onFermer }: Props) {
     <section className="selecteur-territoires" aria-labelledby={`${id}-titre`}>
       <div className="selecteur-territoires__entete">
         <h2 id={`${id}-titre`} className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-0")}>
+          <span className={fr.cx("fr-icon-france-line", "fr-mr-1w")} aria-hidden="true" />
           Sélecteur de territoires
         </h2>
         <Button
