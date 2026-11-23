@@ -138,6 +138,13 @@ Maquette `maquettes/desktop-fiche-udi-restriction.png` (Figma 5541:99214, Lille 
 - **Questions fréquentes** : à gauche (4 colonnes) le titre, le texte d'introduction et « Voir toutes les questions » ; à droite (8 colonnes) les accordéons de la fiche.
 - **Volets** : inchangés, ancrés à droite (vérifié : Mairie, Origine, Analyses).
 
+## Bandeau « Je donne mon avis » (desktop, v2)
+
+Maquette `maquettes/desktop-bandeau-avis.png` (Figma 5541:100132 « Bandeau JDMA / Permanent »).
+- **Où** : en mode Desktop (à partir de lg), juste au-dessus du pied de page, sur toutes les pages qui en ont un. Pas sur l'écran carte, qui occupe toute la hauteur. Absent en mobile et dans la colonne. Pleine largeur, fond `--background-alt-grey`, 169 px de haut. Contenu sur 8 colonnes centrées (792 px) : titre (h2 en `fr-h6`) et phrase à gauche, bouton à droite.
+- **Exception** : le bouton « Je donne mon avis » est le dispositif officiel Services Publics+, hors composants DSFR. C'est un lien image (`public/images/je-donne-mon-avis.png`, 200 × 85, exporté de Figma, alt « Je donne mon avis »), ouvert dans un nouvel onglet (title « Je donne mon avis - nouvelle fenêtre »), sans soulignement ni icône externe (`fr-raw-link`).
+- **Adresse** : prototype, donc lien vers `https://jedonnemonavis.numerique.gouv.fr/` sans identifiant de démarche. Un vrai service utiliserait le lien fourni pour sa démarche.
+
 ## Écarts avec les maquettes — Carte et choix du secteur
 
 - **Fonds IGN non vérifiés en local** : `data.geopf.fr` est inaccessible depuis l'environnement de développement ; l'affichage des fonds (Plan IGN, photographies aériennes, limites administratives `LIMITES_ADMINISTRATIVES_EXPRESS.LATEST`) est à vérifier sur le site publié. Les vignettes du sélecteur de fond sont de vraies tuiles IGN (Lille, zoom 12).

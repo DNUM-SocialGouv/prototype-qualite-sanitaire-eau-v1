@@ -4,8 +4,9 @@ import { Display, headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display
 import { SkipLinks } from "@codegouvfr/react-dsfr/SkipLinks";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { fr } from "@codegouvfr/react-dsfr";
-import { Outlet, ScrollRestoration } from "react-router-dom";
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import { AvertissementPrototype, ChangementAffichage } from "./AvertissementPrototype";
+import { BandeauAvis } from "./BandeauAvis";
 import { modaleChangementAffichage } from "./modalesAccueil";
 import { dansLeCadre, demanderChangementAffichage, REQUETE_GRAND_ECRAN } from "../lib/cadreMobile";
 import { useDesktop, useMediaQuery } from "../lib/useMediaQuery";
@@ -37,6 +38,7 @@ export function Layout() {
   const grandEcran = useMediaQuery(REQUETE_GRAND_ECRAN);
   const choixAffichage = dansLeCadre || grandEcran;
   const desktop = useDesktop();
+  const { pathname } = useLocation();
   return (
     <>
       <SkipLinks
@@ -64,6 +66,8 @@ export function Layout() {
       <main id="contenu" tabIndex={-1}>
         <Outlet />
       </main>
+      {/* Desktop : bandeau « Je donne mon avis », sauf sur l'écran carte (plein écran, pied de page hors de la vue). */}
+      {desktop && pathname !== "/carte" && <BandeauAvis />}
       <Footer
         id="footer"
         brandTop={brandTop}
