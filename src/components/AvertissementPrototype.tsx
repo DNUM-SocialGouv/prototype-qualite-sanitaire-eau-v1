@@ -1,39 +1,104 @@
-import { useEffect } from "react";
-import { createModal } from "@codegouvfr/react-dsfr/Modal";
+import { useEffect, useRef, useState } from "react";
 import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
+import { SegmentedControl } from "@codegouvfr/react-dsfr/SegmentedControl";
+import { modaleAccueil, modaleChangementAffichage } from "./modalesAccueil";
+import { enregistrerAffichage, useAffichage, type ModeAffichage } from "../lib/affichage";
+import { REQUETE_GRAND_ECRAN } from "../lib/cadreMobile";
+import { useMediaQuery } from "../lib/useMediaQuery";
 
-/** Acceptation mémorisée pour la session de l'onglet (cf. NOTES.md). */
-const CLE_ACCEPTATION = "avertissement-prototype-accepte";
+const TITRE = (
+  <>
+    Bienvenue
+    <br />
+    sur ce prototype
+  </>
+);
 
-function dejaAccepte() {
-  try {
-    return window.sessionStorage.getItem(CLE_ACCEPTATION) === "oui";
-  } catch {
-    return false;
-  }
+type PropsContenu = {
+  /** Choix Mobile / Desktop proposé (écran d'au moins 576 px). */
+  avecChoix: boolean;
+  mode: ModeAffichage;
+  onMode: (mode: ModeAffichage) => void;
+  onValider: () => void;
+};
+
+function ContenuAccueil({ avecChoix, mode, onMode, onValider }: PropsContenu) {
+  const segment = (valeur: ModeAffichage) => ({
+    value: valeur,
+    checked: mode === valeur,
+    onChange: () => onMode(valeur),
+  });
+  return (
+    <>
+      <p>Cette expérience a été créée et utilisée dans le cadre de tests utilisateurs.</p>
+      <ul>
+        <li>
+          <strong>En cours de conception</strong>
+        </li>
+        <li>
+          <strong>Réservé à l'équipe projet et aux testeurs</strong>
+        </li>
+      </ul>
+      <p>Je m'engage à ne pas partager ce prototype.</p>
+      {avecChoix && (
+        <SegmentedControl
+          legend="Affichage du prototype"
+          className="segmented-pleine-largeur fr-mb-3w"
+          segments={[
+            { label: "Mobile", iconId: "fr-icon-smartphone-line", nativeInputProps: segment("mobile") },
+            { label: "Desktop", iconId: "fr-icon-computer-line", nativeInputProps: segment("desktop") },
+          ]}
+        />
+      )}
+      <ButtonsGroup buttons={[{ children: "J'ai compris", priority: "tertiary", onClick: onValider }]} />
+    </>
+  );
 }
 
-function memoriserAcceptation() {
-  try {
-    window.sessionStorage.setItem(CLE_ACCEPTATION, "oui");
-  } catch {
-    // Stockage indisponible : la modale réapparaîtra au prochain chargement.
-  }
-}
+/**
+ * Applique le mode choisi une fois la modale refermée par le DSFR : passer de la page entière
+ * à la colonne (ou l'inverse) démonte la modale, ce qui ne doit pas arriver pendant sa fermeture.
+ */
+function useValidation(id: string, choix: ModeAffichage, fermer: () => void) {
+  const aValider = useRef(false);
+  const choixCourant = useRef(choix);
+  choixCourant.current = choix;
 
-const modale = createModal({ id: "avertissement-prototype", isOpenedByDefault: !dejaAccepte() });
+  useEffect(() => {
+    const dialogue = document.getElementById(id);
+    const appliquer = () => {
+      if (!aValider.current) return;
+      aValider.current = false;
+      enregistrerAffichage(choixCourant.current);
+    };
+    dialogue?.addEventListener("dsfr.conceal", appliquer);
+    return () => dialogue?.removeEventListener("dsfr.conceal", appliquer);
+  }, [id]);
+
+  return () => {
+    aValider.current = true;
+    fermer();
+  };
+}
 
 /**
  * Modale d'accueil bloquante : volontairement sans bouton « Fermer », ni fermeture par Échap
  * ou par un clic sur le fond (exception validée, cf. NOTES.md). Seul « J'ai compris » la ferme.
+ * Sur un écran d'au moins 576 px, elle propose l'affichage Mobile (colonne) ou Desktop (pleine largeur).
  */
 export function AvertissementPrototype() {
+  const { accepte } = useAffichage();
+  const grandEcran = useMediaQuery(REQUETE_GRAND_ECRAN);
+  const [choix, setChoix] = useState<ModeAffichage>("mobile");
+  const valider = useValidation(modaleAccueil.id, choix, modaleAccueil.close);
+  const ouverte = modaleAccueil.isOpenedByDefault && !accepte;
+
   // Échap : intercepté avant le JS DSFR (phase de capture) tant que la modale est ouverte.
   useEffect(() => {
-    if (!modale.isOpenedByDefault) return;
+    if (!ouverte) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      if (!document.getElementById(modale.id)?.classList.contains("fr-modal--opened")) return;
+      if (!document.getElementById(modaleAccueil.id)?.classList.contains("fr-modal--opened")) return;
       event.stopPropagation();
       event.preventDefault();
     };
@@ -41,7 +106,7 @@ export function AvertissementPrototype() {
 
     // Contenu derrière la modale inaccessible tant qu'elle est ouverte : le DSFR 1.14 piège
     // le focus mais ne rend pas le reste de la page inerte.
-    const dialogue = document.getElementById(modale.id);
+    const dialogue = document.getElementById(modaleAccueil.id);
     const freres = [...(dialogue?.parentElement?.children ?? [])].filter(
       (element) => element !== dialogue && !element.hasAttribute("inert"),
     );
@@ -54,39 +119,42 @@ export function AvertissementPrototype() {
       dialogue?.removeEventListener("dsfr.conceal", liberer);
       liberer();
     };
-  }, []);
+  }, [ouverte]);
 
-  if (!modale.isOpenedByDefault) return null;
-
-  const valider = () => {
-    memoriserAcceptation();
-    modale.close();
-  };
+  if (!ouverte) return null;
 
   return (
-    <modale.Component
+    <modaleAccueil.Component
       className="avertissement-prototype modale-centree"
-      title={
-        <>
-          Bienvenue
-          <br />
-          sur ce prototype
-        </>
-      }
+      title={TITRE}
       // Option native du DSFR : un clic sur le fond ne ferme pas la modale.
       concealingBackdrop={false}
     >
-      <p>Cette expérience a été créée et utilisée dans le cadre de tests utilisateurs.</p>
-      <ul>
-        <li>
-          <strong>En cours de conception</strong>
-        </li>
-        <li>
-          <strong>Réservé à l'équipe projet et aux testeurs</strong>
-        </li>
-      </ul>
-      <p>Je m'engage à ne pas partager ce prototype.</p>
-      <ButtonsGroup buttons={[{ children: "J'ai compris", priority: "tertiary", onClick: valider }]} />
-    </modale.Component>
+      <ContenuAccueil avecChoix={grandEcran} mode={choix} onMode={setChoix} onValider={valider} />
+    </modaleAccueil.Component>
+  );
+}
+
+/**
+ * La même modale, rouverte depuis le pied de page (« Changer d'affichage ») : l'avertissement
+ * est déjà accepté, elle se ferme donc normalement (Fermer, Échap, clic sur le fond).
+ */
+export function ChangementAffichage() {
+  const { mode } = useAffichage();
+  const [choix, setChoix] = useState<ModeAffichage>(mode);
+  const valider = useValidation(modaleChangementAffichage.id, choix, modaleChangementAffichage.close);
+
+  // À chaque ouverture, le choix repart du mode en cours.
+  useEffect(() => {
+    const dialogue = document.getElementById(modaleChangementAffichage.id);
+    const reinitialiser = () => setChoix(mode);
+    dialogue?.addEventListener("dsfr.disclose", reinitialiser);
+    return () => dialogue?.removeEventListener("dsfr.disclose", reinitialiser);
+  }, [mode]);
+
+  return (
+    <modaleChangementAffichage.Component className="modale-centree" title={TITRE}>
+      <ContenuAccueil avecChoix mode={choix} onMode={setChoix} onValider={valider} />
+    </modaleChangementAffichage.Component>
   );
 }
