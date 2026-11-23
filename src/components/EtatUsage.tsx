@@ -3,6 +3,7 @@ import { Highlight } from "@codegouvfr/react-dsfr/Highlight";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { useBoutonVolet } from "../lib/contexteVolets";
@@ -134,15 +135,14 @@ export function EtatUsage({ statut, desktop }: { statut: StatutSecteur; /** Mise
 }
 
 /**
- * État d'usage en desktop (maquette « Restriction et avis face à face ») : badge et date sur une ligne,
- * puis « Qui est concerné ? » et les usages dans trois encadrés côte à côte. Pour un usage autorisé,
- * l'encadré donne la conclusion pour la population générale. Mentions en italique sans liens
+ * État d'usage en desktop (maquette « Restriction et avis face à face », Figma 5541:98514) : badge et date
+ * sur une ligne, « Qui est concerné ? » et les usages dans trois encadrés côte à côte, puis la conclusion
+ * avec le bouton « Origine de cette… » à droite, et les mentions en italique sous un filet, sans liens
  * (le volet Mairie reste accessible par « Votre mairie »).
  */
 function EtatUsageDesktop({ statut }: { statut: StatutSecteur }) {
   const boutonVolet = useBoutonVolet();
   const etat = ETATS[statut];
-  const usageAutorise = etat.usages?.find((usage) => usage.autorisation === "autorise");
 
   return (
     <Highlight bodyAs="div" className={cx("etat-usage", `etat-usage--${statut}`, fr.cx("fr-mb-0", "fr-ml-0", "fr-py-4w"))} classes={{ content: "etat-usage__contenu" }}>
@@ -168,35 +168,25 @@ function EtatUsageDesktop({ statut }: { statut: StatutSecteur }) {
                   {BADGES_USAGE[usage.autorisation].libelle}
                 </Badge>
               </div>
-              <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{usage === usageAutorise ? etat.conclusion : usage.description}</p>
+              <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{usage.description}</p>
             </div>
           ))}
         </div>
       )}
-      {/* Sans usage autorisé (interdiction) ou sans restriction, la conclusion reste sous les encadrés. */}
-      {!usageAutorise && <p className={fr.cx("fr-text--sm")}>{etat.conclusion}</p>}
-      <hr className={fr.cx("fr-pb-3w")} />
+      <div className="etat-usage__conclusion">
+        <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{etat.conclusion}</p>
+        {statut !== "aucune" && (
+          <Button priority="secondary" size="large" nativeButtonProps={boutonVolet({ type: "origine" }, "ouvrir-origine")}>
+            {`Origine de cette ${statut === "interdiction" ? "interdiction" : "restriction"}`}
+          </Button>
+        )}
+      </div>
+      <hr className={fr.cx("fr-mt-3w", "fr-pb-3w")} />
       <p className={cx(fr.cx("fr-text--md", "fr-mb-0"), "texte-italique", "fr-text-mention--grey")}>
         Les consignes de votre mairie restent prioritaires.
         <br />
         Ces informations concernent les foyers raccordés au réseau public.
       </p>
-      {statut !== "aucune" && (
-        <>
-          <hr className={fr.cx("fr-mt-3w", "fr-pb-3w")} />
-          <ButtonsGroup
-            inlineLayoutWhen="always"
-            buttonsSize="large"
-            buttons={[
-              {
-                children: `Origine de cette ${statut === "interdiction" ? "interdiction" : "restriction"}`,
-                priority: "secondary",
-                nativeButtonProps: boutonVolet({ type: "origine" }, "ouvrir-origine"),
-              },
-            ]}
-          />
-        </>
-      )}
     </Highlight>
   );
 }

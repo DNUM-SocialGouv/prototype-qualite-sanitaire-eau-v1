@@ -409,6 +409,14 @@
   border: 1px solid var(--border-default-grey);
 }
 
+/* Conclusion à gauche, bouton « Origine de cette… » à droite (maquette desktop). */
+.etat-usage__conclusion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
 /* Nombre suivi d'un badge (suivi 2026, maquette desktop). */
 .ligne-badge {
   display: flex;

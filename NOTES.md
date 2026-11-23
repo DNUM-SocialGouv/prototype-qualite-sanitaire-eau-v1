@@ -148,10 +148,9 @@ Maquette `maquettes/desktop-carte.png` (Figma 5551:92914, « Territoires visible
 Maquette `maquettes/desktop-fiche-udi-restriction.png` (Figma 5541:99214, « Restriction et avis face à face », Lille Centre avec restriction), mise à jour à la demande de l'utilisateur. Elle ne s'applique qu'en mode Desktop, à partir de lg. Les autres statuts (interdiction, aucune restriction) suivent la même mise en page. Le mobile et le mode Mobile sur ordinateur ne changent pas : vérifié au pixel près sur les trois statuts.
 - **Haut de page** : « Changer d'adresse », h1, communes, puis l'état d'usage sur toute la largeur (`EtatUsageDesktop`, mise en avant DSFR avec 32 px de marge en haut et en bas) :
   - badge et date « Depuis le… » sur une ligne ;
-  - trois encadrés côte à côte (filet `--border-default-grey`, 20 px de marge intérieure, 16 px d'écart) : « Qui est concerné ? », « Alimentaire », « Hygiène et entretien » ;
-  - pour un usage autorisé, l'encadré donne la conclusion pour la population générale, comme la maquette (« Population générale : l'eau du robinet peut être utilisée sans restriction. »). En interdiction, les deux encadrés gardent leur description et la conclusion passe sous les encadrés. Sans restriction, pas d'encadré ;
-  - les deux mentions en italique, entre deux filets ;
-  - le bouton « Origine de cette… » en taille LG.
+  - trois encadrés côte à côte (filet `--border-default-grey`, 20 px de marge intérieure, 16 px d'écart) : « Qui est concerné ? », « Alimentaire », « Hygiène et entretien », chacun avec sa description. Sans restriction, pas d'encadré ;
+  - sur une ligne, la conclusion (« Population générale : … », « Tous les usages… ») à gauche et le bouton « Origine de cette… » en taille LG à droite (Figma 5541:98514) ;
+  - un filet, puis les deux mentions en italique.
   **Écart de contenu, suivant la maquette** : en desktop, les liens « Suivre les infos locales » et « Vérifier mon raccordement » ne sont plus affichés. Le volet Mairie reste accessible par « Votre mairie ». La vérification du raccordement n'existe qu'en mobile.
 - **Avis sanitaire et contacts**, sur fond lavande :
   - à gauche, encadré blanc avec ombre (`encadre-ombre`) de 736 px à 1440 px : « Avis sanitaire », CallOut « Dernière conclusion sanitaire » et note en italique grise ;
