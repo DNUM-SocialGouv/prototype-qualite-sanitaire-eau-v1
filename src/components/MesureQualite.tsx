@@ -19,7 +19,7 @@ export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan
       <div className={cx(desktop && fr.cx("fr-col-6"))}>
       <h3 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>Bilan 2025</h3>
       <NoteQualite note="A" libelle="Eau de bonne qualité" />
-      <p className={fr.cx("fr-text--sm")}>6 prélèvements, aucun dépassement</p>
+      <p className={fr.cx(desktop ? "fr-text--md" : "fr-text--sm")}>6 prélèvements, aucun dépassement</p>
       </div>
       {!desktop && <hr className={fr.cx("fr-pb-3w")} />}
       <div className={cx(desktop && fr.cx("fr-col-6"), desktop && "mesure-qualite__suivi")}>

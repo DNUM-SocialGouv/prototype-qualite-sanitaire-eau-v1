@@ -29,6 +29,7 @@ export function ContactsUtiles({ infos, desktop }: Props) {
             small
             noBorder
             noBackground
+            classes={{ desc: desktop ? fr.cx("fr-text--md") : undefined }}
             enlargeLinkOrButton
             buttonProps={boutonVolet({ type: "mairie" }, "ouvrir-mairie-contacts")}
           />
@@ -42,6 +43,7 @@ export function ContactsUtiles({ infos, desktop }: Props) {
             small
             noBorder
             noBackground
+            classes={{ desc: desktop ? fr.cx("fr-text--md") : undefined }}
             enlargeLinkOrButton
             linkProps={externe(infos.distributeur, "Distributeur")}
           />
@@ -55,6 +57,7 @@ export function ContactsUtiles({ infos, desktop }: Props) {
             small
             noBorder
             noBackground
+            classes={{ desc: desktop ? fr.cx("fr-text--md") : undefined }}
             enlargeLinkOrButton
             linkProps={externe(infos.ars.url, infos.ars.nom)}
           />

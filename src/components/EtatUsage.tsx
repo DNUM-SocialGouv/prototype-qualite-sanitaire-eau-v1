@@ -154,7 +154,7 @@ function EtatUsageDesktop({ statut }: { statut: StatutSecteur }) {
         <div className={cx("etat-usage__encadres", fr.cx("fr-mb-3w"))}>
           <div className={cx("etat-usage__encadre", fr.cx("fr-p-5v"))}>
             <h2 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>Qui est concerné ?</h2>
-            <ul className={fr.cx("fr-text--sm", "fr-mb-0")}>
+            <ul className={fr.cx("fr-text--md", "fr-mb-0")}>
               {etat.concernes.map((c) => (
                 <li key={c}>{c}</li>
               ))}
@@ -168,7 +168,7 @@ function EtatUsageDesktop({ statut }: { statut: StatutSecteur }) {
                   {BADGES_USAGE[usage.autorisation].libelle}
                 </Badge>
               </div>
-              <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{usage.description}</p>
+              <p className={fr.cx("fr-text--md", "fr-mb-0")}>{usage.description}</p>
             </div>
           ))}
         </div>
