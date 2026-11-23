@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import type { InfosCommune } from "../lib/communes";
+import type { Secteur } from "../lib/secteurs";
 import { Link, useParams } from "react-router-dom";
 import { CallOut } from "@codegouvfr/react-dsfr/CallOut";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -11,6 +13,7 @@ import { ContactsUtiles } from "../components/ContactsUtiles";
 import { QuestionFaq } from "../components/QuestionFaq";
 import { routeCommune, secteurParCode, type StatutSecteur } from "../lib/secteurs";
 import { infosCommune } from "../lib/communes";
+import { useDesktop } from "../lib/useMediaQuery";
 
 const CONCLUSIONS: Record<StatutSecteur, ReactNode> = {
   interdiction: (
@@ -30,33 +33,87 @@ const CONCLUSIONS: Record<StatutSecteur, ReactNode> = {
   aucune: <>Eau d’alimentation conforme aux exigences de qualité en vigueur pour l’ensemble des paramètres mesurés.</>,
 };
 
+const QUESTIONS_FICHE = (
+  <>
+    <QuestionFaq label="Qu’est-ce qu’un prélèvement ?">
+      <p>
+        Un prélèvement est un échantillon d’eau recueilli au robinet ou sur le réseau par un agent habilité, puis
+        analysé par un laboratoire agréé par le ministère chargé de la santé.
+      </p>
+    </QuestionFaq>
+    <QuestionFaq label="D’où viennent ces données ?">
+      <p>
+        Elles proviennent du contrôle sanitaire réalisé par les Agences régionales de santé (ARS), en complément de
+        la surveillance assurée par l’exploitant du réseau.
+      </p>
+    </QuestionFaq>
+    <QuestionFaq label="Que se passe-t-il en cas d’alerte ?">
+      <p>
+        En cas de dépassement, l’ARS évalue le risque, informe la mairie et l’exploitant et peut proposer au préfet
+        une restriction d’usage. Votre mairie relaie alors les consignes à suivre.
+      </p>
+    </QuestionFaq>
+    <QuestionFaq label="Pourquoi les unités des indicateurs analysés sont-elles différentes ?">
+      <p>
+        Chaque paramètre est exprimé dans l’unité adaptée à sa concentration habituelle : milligrammes par litre
+        pour les sels minéraux, microgrammes par litre pour les substances présentes à l’état de traces, nombre de
+        bactéries pour 100 mL…
+      </p>
+    </QuestionFaq>
+    <QuestionFaq label="Que signifient µg/L, mg/L… ?">
+      <p>
+        1 mg/L correspond à un milligramme (un millième de gramme) par litre d’eau. 1 µg/L correspond à un
+        microgramme par litre, soit mille fois moins.
+      </p>
+    </QuestionFaq>
+  </>
+);
+
+const NOTE_CONCLUSION =
+  "Cette conclusion porte sur le prélèvement du 9 juillet 2026. Une évaluation sur une période plus longue est envisagée et nécessaire pour une interprétation sanitaire.";
+
 export function FicheSecteur() {
   const { id = "" } = useParams();
+  const desktop = useDesktop();
   const trouve = secteurParCode(id);
   const infos = trouve && infosCommune(trouve.codeCommune);
   if (!trouve || !infos) return <EnConstruction titre="Secteur introuvable" />;
   const { secteur, codeCommune } = trouve;
   const { nom, communes, precision, statut } = secteur.properties;
+  const lienRetour = routeCommune(codeCommune) === `/commune/${codeCommune}` ? `/commune/${codeCommune}` : "/carte";
+  const enTete = (
+    <>
+      <Link to={lienRetour} className={fr.cx("fr-link", "fr-icon-arrow-left-line", "fr-link--icon-left")}>
+        Changer d’adresse
+      </Link>
+      <h1 className={fr.cx("fr-mt-3w", "fr-mb-1w")}>{nom}</h1>
+      <p className={fr.cx(desktop ? "fr-text--md" : "fr-text--sm", "fr-mb-4w")}>
+        {communes.length > 0 ? (
+          <>
+            Communes : <strong>{communes.join(", ")}</strong>
+            {precision && ` (${precision})`}
+          </>
+        ) : (
+          precision
+        )}
+      </p>
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <VoletsFiche codeUdi={id} statut={statut} infos={infos}>
+        <FicheDesktop enTete={enTete} codeUdi={id} statut={statut} secteur={secteur} infos={infos} />
+      </VoletsFiche>
+    );
+  }
 
   return (
     <VoletsFiche codeUdi={id} statut={statut} infos={infos}>
       <div className={fr.cx("fr-container", "fr-pt-3w", "fr-pb-6w")}>
         <div className={fr.cx("fr-grid-row")}>
           <div className={fr.cx("fr-col-12", "fr-col-lg-8")}>
-            <Link to={routeCommune(codeCommune) === `/commune/${codeCommune}` ? `/commune/${codeCommune}` : "/carte"} className={fr.cx("fr-link", "fr-icon-arrow-left-line", "fr-link--icon-left")}>
-              Changer d’adresse
-            </Link>
-            <h1 className={fr.cx("fr-mt-3w", "fr-mb-1w")}>{nom}</h1>
-            <p className={fr.cx("fr-text--sm", "fr-mb-4w")}>
-              {communes.length > 0 ? (
-                <>
-                  Communes : <strong>{communes.join(", ")}</strong>
-                  {precision && ` (${precision})`}
-                </>
-              ) : (
-                precision
-              )}
-            </p>
+            {enTete}
 
             <EtatUsage statut={statut} />
 
@@ -74,7 +131,7 @@ export function FicheSecteur() {
                 <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{CONCLUSIONS[statut]}</p>
                 <p className={`${fr.cx("fr-text--xs", "fr-mt-2w", "fr-mb-0")} fr-text-mention--grey`}>
                   <em>
-                    Cette conclusion porte sur le prélèvement du 9 juillet 2026. Une évaluation sur une période plus longue est envisagée et nécessaire pour une interprétation sanitaire.
+                    {NOTE_CONCLUSION}
                   </em>
                 </p>
               </CallOut>
@@ -89,37 +146,7 @@ export function FicheSecteur() {
                 Questions fréquentes
               </h2>
               <div className={fr.cx("fr-accordions-group")}>
-                <QuestionFaq label="Qu’est-ce qu’un prélèvement ?">
-                  <p>
-                    Un prélèvement est un échantillon d’eau recueilli au robinet ou sur le réseau par un agent habilité, puis
-                    analysé par un laboratoire agréé par le ministère chargé de la santé.
-                  </p>
-                </QuestionFaq>
-                <QuestionFaq label="D’où viennent ces données ?">
-                  <p>
-                    Elles proviennent du contrôle sanitaire réalisé par les Agences régionales de santé (ARS), en complément de
-                    la surveillance assurée par l’exploitant du réseau.
-                  </p>
-                </QuestionFaq>
-                <QuestionFaq label="Que se passe-t-il en cas d’alerte ?">
-                  <p>
-                    En cas de dépassement, l’ARS évalue le risque, informe la mairie et l’exploitant et peut proposer au préfet
-                    une restriction d’usage. Votre mairie relaie alors les consignes à suivre.
-                  </p>
-                </QuestionFaq>
-                <QuestionFaq label="Pourquoi les unités des indicateurs analysés sont-elles différentes ?">
-                  <p>
-                    Chaque paramètre est exprimé dans l’unité adaptée à sa concentration habituelle : milligrammes par litre
-                    pour les sels minéraux, microgrammes par litre pour les substances présentes à l’état de traces, nombre de
-                    bactéries pour 100 mL…
-                  </p>
-                </QuestionFaq>
-                <QuestionFaq label="Que signifient µg/L, mg/L… ?">
-                  <p>
-                    1 mg/L correspond à un milligramme (un millième de gramme) par litre d’eau. 1 µg/L correspond à un
-                    microgramme par litre, soit mille fois moins.
-                  </p>
-                </QuestionFaq>
+                {QUESTIONS_FICHE}
               </div>
             </section>
 
@@ -128,5 +155,78 @@ export function FicheSecteur() {
         </div>
       </div>
     </VoletsFiche>
+  );
+}
+
+type PropsDesktop = {
+  enTete: ReactNode;
+  codeUdi: string;
+  statut: StatutSecteur;
+  secteur: Secteur;
+  infos: InfosCommune;
+};
+
+/**
+ * Fiche du secteur en mode Desktop, à partir de lg (maquette desktop) : mêmes contenus qu'en mobile,
+ * en colonnes et en sections pleine largeur alternant fond blanc et fond lavande.
+ */
+function FicheDesktop({ enTete, codeUdi, statut, secteur, infos }: PropsDesktop) {
+  return (
+    <>
+      <div className={fr.cx("fr-container", "fr-pt-3w", "fr-pb-6w")}>
+        {enTete}
+        <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters", "fr-grid-row--middle")}>
+          <div className={fr.cx("fr-col-7")}>
+            <EtatUsage statut={statut} desktop />
+          </div>
+          <div className={fr.cx("fr-col-5")}>
+            <section className={`${fr.cx("fr-p-4w")} encadre-ombre`} aria-labelledby="titre-suivi">
+              <h2 id="titre-suivi" className={fr.cx("fr-h4")}>
+                Avis sanitaire
+              </h2>
+              <CallOut
+                title="Dernière conclusion sanitaire"
+                titleAs="h3"
+                colorVariant="blue-ecume"
+                bodyAs="div"
+                classes={{ title: fr.cx("fr-text--lg") }}
+              >
+                <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{CONCLUSIONS[statut]}</p>
+              </CallOut>
+              <p className={`${fr.cx("fr-text--sm", "fr-mb-0")} fr-text-mention--grey`}>
+                <em>{NOTE_CONCLUSION}</em>
+              </p>
+            </section>
+          </div>
+        </div>
+      </div>
+      <div className="fr-background-alt--blue-france">
+        <div className={fr.cx("fr-container", "fr-py-4w")}>
+          <ContactsUtiles infos={infos} desktop />
+        </div>
+      </div>
+      <div className={fr.cx("fr-container", "fr-py-8w")}>
+        <MesureQualite codeUdi={codeUdi} desktop />
+      </div>
+      <div className="fr-background-alt--blue-france">
+        <div className={fr.cx("fr-container", "fr-py-8w")}>
+          <VotreSecteur secteur={secteur} infos={infos} desktop />
+        </div>
+      </div>
+      <section className={fr.cx("fr-container", "fr-py-8w")} aria-labelledby="titre-faq-fiche">
+        <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters")}>
+          <div className={fr.cx("fr-col-4")}>
+            <h2 id="titre-faq-fiche">Questions fréquentes</h2>
+            <p>Les réponses aux questions les plus posées sur l’eau du robinet et les eaux de baignade.</p>
+            <Link to="/faq" className={fr.cx("fr-link", "fr-icon-arrow-right-line", "fr-link--icon-right")}>
+              Voir toutes les questions
+            </Link>
+          </div>
+          <div className={fr.cx("fr-col-8")}>
+            <div className={fr.cx("fr-accordions-group")}>{QUESTIONS_FICHE}</div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

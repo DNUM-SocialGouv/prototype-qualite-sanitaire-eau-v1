@@ -4,15 +4,21 @@ import { useBoutonVolet } from "../lib/contexteVolets";
 import type { InfosCommune } from "../lib/communes";
 
 /** Section « Contact & liens utiles » : tuiles DSFR horizontales. */
-export function ContactsUtiles({ infos }: { infos: InfosCommune }) {
+type Props = {
+  infos: InfosCommune;
+  /** Desktop (maquette desktop) : « Pour aller plus loin », 3 liens sur une ligne séparés par des filets. */
+  desktop?: boolean;
+};
+
+export function ContactsUtiles({ infos, desktop }: Props) {
   const boutonVolet = useBoutonVolet();
   const externe = (url: string, nom: string) => ({ href: url, target: "_blank", rel: "noopener noreferrer", title: `${nom} - nouvelle fenêtre` });
   return (
-    <section className={fr.cx("fr-mb-6w")} aria-labelledby="titre-contacts">
+    <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-contacts">
       <h2 id="titre-contacts" className={fr.cx("fr-h4")}>
-        Contact & liens utiles
+        {desktop ? "Pour aller plus loin" : "Contact & liens utiles"}
       </h2>
-      <ul className={`${fr.cx("fr-raw-list")} liste-tuiles`}>
+      <ul className={`${fr.cx("fr-raw-list")} liste-tuiles${desktop ? " liste-tuiles--ligne" : ""}`}>
         <li>
           <Tile
             title="Votre mairie"

@@ -887,3 +887,64 @@ html.cadre-mobile body {
 .selecteur-territoires__groupe--panneau {
   padding: 0;
 }
+
+/* ---------- Fiche du secteur desktop (mode Desktop, à partir de lg) ---------- */
+
+/* Encadré blanc avec ombre, comme le bloc de recherche de l'accueil (« Avis sanitaire »). */
+.encadre-ombre {
+  background-color: var(--background-default-grey);
+  box-shadow: var(--raised-shadow);
+}
+
+/* Mentions en italique (maquette desktop) : le DSFR n'a pas d'utilitaire d'italique. */
+.texte-italique {
+  font-style: italic;
+}
+
+/* « Pour aller plus loin » : 3 liens sur une ligne, séparés par des filets. */
+.liste-tuiles--ligne {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.liste-tuiles--ligne > li {
+  border-top: 1px solid var(--border-default-grey);
+  border-bottom: 1px solid var(--border-default-grey);
+}
+
+/* Tuiles DSFR présentées en liens (maquette desktop, exception cf. NOTES.md) : sans la barre bleue
+ * du bas, texte aligné à gauche, icône à droite et centrée verticalement. */
+.liste-tuiles--ligne .fr-tile {
+  padding: 1rem 2.5rem 1rem 0;
+}
+
+.liste-tuiles--ligne .fr-tile.fr-enlarge-link .fr-tile__content,
+.liste-tuiles--ligne .fr-tile.fr-enlarge-button .fr-tile__content {
+  padding-bottom: 0;
+}
+
+.liste-tuiles--ligne .fr-tile__title::before,
+.liste-tuiles--ligne .fr-tile__title a::before,
+.liste-tuiles--ligne .fr-tile__title button::before {
+  background-image: none;
+}
+
+.liste-tuiles--ligne .fr-tile.fr-enlarge-link .fr-tile__title a::after,
+.liste-tuiles--ligne .fr-tile.fr-enlarge-button .fr-tile__title button::after {
+  --icon-size: 1.5rem;
+  top: 50%;
+  right: 0.5rem;
+  bottom: auto;
+  transform: translateY(-50%);
+}
+
+/* Mesure de la qualité : filet vertical entre le bilan et le suivi. */
+.mesure-qualite__suivi {
+  border-left: 1px solid var(--border-default-grey);
+  padding-left: 3rem;
+}
+
+.carte-fiche--desktop {
+  height: 28.75rem;
+}

@@ -1,23 +1,28 @@
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
 import { fr } from "@codegouvfr/react-dsfr";
+import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { NoteQualite } from "./NoteQualite";
 import { useBoutonVolet } from "../lib/contexteVolets";
 import { bilanPrelevements } from "../lib/analyses";
 
 /** Section « Mesure de la qualité de votre eau » : bilan 2025 noté, bilan 2026 en cours. */
-export function MesureQualite({ codeUdi }: { codeUdi: string }) {
+export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan et suivi côte à côte, séparés par un filet (maquette desktop). */ desktop?: boolean }) {
   const boutonVolet = useBoutonVolet();
   const { conformes, depassements } = bilanPrelevements(codeUdi);
   return (
-    <section className={fr.cx("fr-mb-6w")} aria-labelledby="titre-mesure">
+    <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-mesure">
       <h2 id="titre-mesure" className={fr.cx("fr-h4")}>
         Mesure de la qualité de votre eau
       </h2>
+      <div className={cx(desktop && fr.cx("fr-grid-row", "fr-grid-row--gutters"))}>
+      <div className={cx(desktop && fr.cx("fr-col-6"))}>
       <h3 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>Bilan 2025</h3>
       <NoteQualite note="A" libelle="Eau de bonne qualité" />
       <p className={fr.cx("fr-text--sm")}>6 prélèvements, aucun dépassement</p>
-      <hr className={fr.cx("fr-pb-3w")} />
+      </div>
+      {!desktop && <hr className={fr.cx("fr-pb-3w")} />}
+      <div className={cx(desktop && fr.cx("fr-col-6"), desktop && "mesure-qualite__suivi")}>
       <h3 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>
         Suivi 2026{" "}
         <Badge small noIcon as="span">
@@ -44,6 +49,7 @@ export function MesureQualite({ codeUdi }: { codeUdi: string }) {
         La note 2026 sera attribuée en cours d’année 2027, une fois tous les prélèvements réalisés et interprétés.
       </p>
       <ButtonsGroup
+        inlineLayoutWhen={desktop ? "always" : "never"}
         buttons={[
           {
             children: "Voir le détail des analyses",
@@ -54,6 +60,8 @@ export function MesureQualite({ codeUdi }: { codeUdi: string }) {
           },
         ]}
       />
+      </div>
+      </div>
     </section>
   );
 }

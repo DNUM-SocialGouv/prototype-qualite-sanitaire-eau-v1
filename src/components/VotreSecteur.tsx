@@ -2,15 +2,21 @@ import { useMemo } from "react";
 import { GeoJSON } from "react-leaflet";
 import type { FeatureCollection } from "geojson";
 import { fr } from "@codegouvfr/react-dsfr";
+import { cx } from "@codegouvfr/react-dsfr/tools/cx";
 import { CarteIgn } from "./CarteIgn";
 import { LegendeZone } from "./LegendeZone";
 import { emprise, type Secteur } from "../lib/secteurs";
 import type { InfosCommune } from "../lib/communes";
 
-type Props = { secteur: Secteur; infos: InfosCommune };
+type Props = {
+  secteur: Secteur;
+  infos: InfosCommune;
+  /** Carte (8 colonnes) et étapes (4 colonnes) côte à côte (maquette desktop). */
+  desktop?: boolean;
+};
 
 /** Section « Votre secteur » : carte du réseau, puis les étapes de l'eau jusqu'au robinet. */
-export function VotreSecteur({ secteur, infos }: Props) {
+export function VotreSecteur({ secteur, infos, desktop }: Props) {
   const empriseCarte = useMemo(() => {
     const [ouest, sud, est, nord] = emprise([secteur]);
     return [
@@ -20,17 +26,21 @@ export function VotreSecteur({ secteur, infos }: Props) {
   }, [secteur]);
 
   return (
-    <section className={fr.cx("fr-mb-6w")} aria-labelledby="titre-secteur">
+    <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-secteur">
       <h2 id="titre-secteur" className={fr.cx("fr-h4")}>
         Votre secteur
       </h2>
-      <div className="carte-fiche">
+      <div className={cx(desktop && fr.cx("fr-grid-row", "fr-grid-row--gutters"))}>
+      <div className={cx(desktop && fr.cx("fr-col-8"))}>
+      <div className={cx("carte-fiche", desktop && "carte-fiche--desktop")}>
         <CarteIgn key={secteur.properties.id} emprise={empriseCarte} sansControles className="carte-ign--fiche">
           <GeoJSON data={{ type: "FeatureCollection", features: [secteur] } as FeatureCollection} style={{ className: "carte-ign__zone" }} />
         </CarteIgn>
       </div>
       <LegendeZone horsCarte texte="Zone = réseau de distribution d’eau" />
-      <ol className="etapes-eau fr-mt-3w">
+      </div>
+      <div className={cx(desktop && fr.cx("fr-col-4"))}>
+      <ol className={cx("etapes-eau", fr.cx(desktop ? "fr-mt-0" : "fr-mt-3w"))}>
         <li>
           <p className={`${fr.cx("fr-text--sm", "fr-mb-0")} fr-text-mention--grey`}>Origine de l’eau (captage)</p>
           <p className={fr.cx("fr-text--bold")}>{infos.captage}</p>
@@ -56,6 +66,8 @@ export function VotreSecteur({ secteur, infos }: Props) {
           <p className={fr.cx("fr-text--bold", "fr-mb-0")}>≈ {infos.habitantsParSecteur.toLocaleString("fr-FR")} habitants desservis</p>
         </li>
       </ol>
+      </div>
+      </div>
     </section>
   );
 }

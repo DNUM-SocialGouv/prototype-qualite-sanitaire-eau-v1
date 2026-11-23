@@ -127,6 +127,17 @@ Maquette `maquettes/desktop-carte.png` (Figma 5551:93049), en mode Desktop à pa
 - **Message d'aide retiré en desktop** : « Zoomez sur une ville… » / « Cliquez sur un secteur… » (`fr-message--info`) n'est pas sur la maquette desktop. Il reste sur mobile.
 - **Champs** : la recherche et les boutons gardent la taille DSFR par défaut (40 px), un peu plus hauts sur la maquette.
 
+## Écarts avec les maquettes — Fiche du secteur desktop (v2)
+
+Maquette `maquettes/desktop-fiche-udi-restriction.png` (Figma 5541:99214, Lille Centre avec restriction), en mode Desktop à partir de lg seulement. Les autres statuts (interdiction, aucune restriction) suivent la même mise en page. Le mobile et le mode Mobile sur ordinateur ne changent pas : vérifié au pixel près sur les trois statuts, l'accueil et la carte.
+- **Mêmes contenus et mêmes composants qu'en mobile**, en colonnes : `EtatUsage`, `MesureQualite`, `VotreSecteur` et `ContactsUtiles` reçoivent une option `desktop`. La fiche desktop (`FicheDesktop`, dans `FicheSecteur.tsx`) les dispose en sections pleine largeur, sur fond blanc ou lavande `fr-background-alt--blue-france`.
+- **Haut de page** : état d'usage (7 colonnes), avec Alimentaire et Hygiène sur 2 colonnes, les deux mentions en italique (classe `texte-italique`, le DSFR n'a pas d'utilitaire d'italique) et le bouton « Origine de cette… » à sa largeur. À droite (5 colonnes), encadré blanc avec ombre (`encadre-ombre`, mêmes tokens que le bloc de recherche) « Avis sanitaire ». Il contient le CallOut « Dernière conclusion sanitaire », puis la note en italique grise, placée sous le CallOut comme sur la maquette (dedans sur mobile). **Écarts de contenu conservés** : la ligne de conclusion (« Population générale : … ») et les liens « Suivre les infos locales » / « Vérifier mon raccordement » restent, comme en mobile. La maquette n'a pas ces liens et met la conclusion dans la description de l'usage Hygiène.
+- **Pour aller plus loin** : les tuiles DSFR des contacts utiles, sur une ligne de 3 colonnes, séparées par des filets gris. **Exception** (CSS sur la tuile DSFR) : sans la barre bleue du bas, avec l'icône à droite centrée verticalement. Titres et descriptions gardent la taille des petites tuiles, un peu plus petite que sur la maquette.
+- **Mesure de la qualité** : bilan 2025 et suivi 2026 côte à côte, séparés par un filet vertical. Le bouton « Voir le détail des analyses » est à sa largeur.
+- **Votre secteur** : mini-carte sur 8 colonnes (460 px de haut) avec sa légende, et les 4 étapes sur 4 colonnes. L'étape 2 garde son libellé « Traitement appliqué » (« Traitement » sur la maquette).
+- **Questions fréquentes** : à gauche (4 colonnes) le titre, le texte d'introduction et « Voir toutes les questions » ; à droite (8 colonnes) les accordéons de la fiche.
+- **Volets** : inchangés, ancrés à droite (vérifié : Mairie, Origine, Analyses).
+
 ## Écarts avec les maquettes — Carte et choix du secteur
 
 - **Fonds IGN non vérifiés en local** : `data.geopf.fr` est inaccessible depuis l'environnement de développement ; l'affichage des fonds (Plan IGN, photographies aériennes, limites administratives `LIMITES_ADMINISTRATIVES_EXPRESS.LATEST`) est à vérifier sur le site publié. Les vignettes du sélecteur de fond sont de vraies tuiles IGN (Lille, zoom 12).
