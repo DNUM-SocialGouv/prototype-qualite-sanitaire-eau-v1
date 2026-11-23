@@ -148,7 +148,7 @@ function EtatUsageDesktop({ statut }: { statut: StatutSecteur }) {
     <Highlight bodyAs="div" className={cx("etat-usage", `etat-usage--${statut}`, fr.cx("fr-mb-0", "fr-ml-0", "fr-py-4w"))} classes={{ content: "etat-usage__contenu" }}>
       <div className={cx("etat-usage__entete", fr.cx("fr-mb-3w"))}>
         <Badge severity={etat.badge.severite}>{etat.badge.libelle}</Badge>
-        {etat.depuis && <p className={`${fr.cx("fr-text--sm", "fr-mb-0")} fr-text-mention--grey`}>{etat.depuis}</p>}
+        {etat.depuis && <p className={`${fr.cx("fr-text--md", "fr-mb-0")} fr-text-mention--grey`}>{etat.depuis}</p>}
       </div>
       {etat.concernes && (
         <div className={cx("etat-usage__encadres", fr.cx("fr-mb-3w"))}>
@@ -174,7 +174,7 @@ function EtatUsageDesktop({ statut }: { statut: StatutSecteur }) {
         </div>
       )}
       <div className="etat-usage__conclusion">
-        <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{etat.conclusion}</p>
+        <p className={fr.cx("fr-text--md", "fr-mb-0")}>{etat.conclusion}</p>
         {statut !== "aucune" && (
           <Button priority="secondary" size="large" nativeButtonProps={boutonVolet({ type: "origine" }, "ouvrir-origine")}>
             {`Origine de cette ${statut === "interdiction" ? "interdiction" : "restriction"}`}
