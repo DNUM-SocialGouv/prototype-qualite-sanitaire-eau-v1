@@ -87,8 +87,8 @@ export function FicheSecteur() {
       <Link to={lienRetour} className={fr.cx("fr-link", "fr-icon-arrow-left-line", "fr-link--icon-left")}>
         Changer d’adresse
       </Link>
-      <h1 className={fr.cx("fr-mt-3w", "fr-mb-1w")}>{nom}</h1>
-      <p className={fr.cx(desktop ? "fr-text--md" : "fr-text--sm", "fr-mb-4w")}>
+      <h1 className={fr.cx("fr-mt-3w", desktop ? "fr-mb-3v" : "fr-mb-1w")}>{nom}</h1>
+      <p className={fr.cx(desktop ? "fr-text--md" : "fr-text--sm", desktop ? "fr-mb-3w" : "fr-mb-4w")}>
         {communes.length > 0 ? (
           <>
             Communes : <strong>{communes.join(", ")}</strong>
@@ -172,49 +172,53 @@ type PropsDesktop = {
  * en colonnes et en sections pleine largeur alternant fond blanc et fond lavande.
  */
 function FicheDesktop({ enTete, codeUdi, statut, secteur, infos }: PropsDesktop) {
+  // Maquette desktop « Restriction et avis face à face » (Figma 5541:98512).
   return (
     <>
-      <div className={fr.cx("fr-container", "fr-pt-3w", "fr-pb-6w")}>
+      <div className={fr.cx("fr-container", "fr-py-4w")}>
         {enTete}
-        <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters", "fr-grid-row--middle")}>
-          <div className={fr.cx("fr-col-7")}>
-            <EtatUsage statut={statut} desktop />
-          </div>
-          <div className={fr.cx("fr-col-5")}>
-            <section className={`${fr.cx("fr-p-4w")} encadre-ombre`} aria-labelledby="titre-suivi">
-              <h2 id="titre-suivi" className={fr.cx("fr-h4")}>
-                Avis sanitaire
-              </h2>
-              <CallOut
-                title="Dernière conclusion sanitaire"
-                titleAs="h3"
-                colorVariant="blue-ecume"
-                bodyAs="div"
-                classes={{ title: fr.cx("fr-text--lg") }}
-              >
-                <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{CONCLUSIONS[statut]}</p>
-              </CallOut>
-              <p className={`${fr.cx("fr-text--sm", "fr-mb-0")} fr-text-mention--grey`}>
-                <em>{NOTE_CONCLUSION}</em>
-              </p>
-            </section>
-          </div>
-        </div>
+        <EtatUsage statut={statut} desktop />
       </div>
       <div className="fr-background-alt--blue-france">
         <div className={fr.cx("fr-container", "fr-py-4w")}>
-          <ContactsUtiles infos={infos} desktop />
+          <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters", "fr-grid-row--middle")}>
+            <div className={fr.cx("fr-col-8")}>
+              {/* 736 px de large à 1440 px (56 px de retrait à droite), comme la maquette. */}
+              <section className={`${fr.cx("fr-p-4w", "fr-mr-7w")} encadre-ombre`} aria-labelledby="titre-suivi">
+                <h2 id="titre-suivi" className={fr.cx("fr-h4")}>
+                  Avis sanitaire
+                </h2>
+                <CallOut
+                  title="Dernière conclusion sanitaire"
+                  titleAs="h3"
+                  colorVariant="blue-ecume"
+                  bodyAs="div"
+                  classes={{ title: fr.cx("fr-text--lg") }}
+                >
+                  <p className={fr.cx("fr-text--md", "fr-mb-0")}>{CONCLUSIONS[statut]}</p>
+                </CallOut>
+                <p className={`${fr.cx("fr-text--md", "fr-mb-0")} fr-text-mention--grey`}>
+                  <em>{NOTE_CONCLUSION}</em>
+                </p>
+              </section>
+            </div>
+            <div className={fr.cx("fr-col-4")}>
+              <ContactsUtiles infos={infos} desktop />
+            </div>
+          </div>
         </div>
       </div>
       <div className={fr.cx("fr-container", "fr-py-8w")}>
         <MesureQualite codeUdi={codeUdi} desktop />
       </div>
       <div className="fr-background-alt--blue-france">
-        <div className={fr.cx("fr-container", "fr-py-8w")}>
+        <div className={fr.cx("fr-container", "fr-pt-7w", "fr-pb-8w")}>
           <VotreSecteur secteur={secteur} infos={infos} desktop />
         </div>
       </div>
-      <FaqDeuxColonnes idTitre="titre-faq-fiche">{QUESTIONS_FICHE}</FaqDeuxColonnes>
+      <FaqDeuxColonnes idTitre="titre-faq-fiche" marges="fiche">
+        {QUESTIONS_FICHE}
+      </FaqDeuxColonnes>
     </>
   );
 }

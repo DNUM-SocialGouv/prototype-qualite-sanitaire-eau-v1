@@ -47,13 +47,15 @@ const ETATS: Record<
 };
 
 /** État d'usage de l'eau du secteur : mise en avant DSFR, bordure à la couleur de l'état (cf. NOTES.md). */
-export function EtatUsage({ statut, desktop }: { statut: StatutSecteur; /** Usages sur 2 colonnes, mentions en italique (maquette desktop). */ desktop?: boolean }) {
+export function EtatUsage({ statut, desktop }: { statut: StatutSecteur; /** Mise en page de la maquette desktop (`EtatUsageDesktop`). */ desktop?: boolean }) {
   const boutonVolet = useBoutonVolet();
   const [raccordement, setRaccordement] = useState(false);
   const etat = ETATS[statut];
 
+  if (desktop) return <EtatUsageDesktop statut={statut} />;
+
   return (
-    <Highlight bodyAs="div" className={cx("etat-usage", `etat-usage--${statut}`, fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w", "fr-ml-0"))} classes={{ content: "etat-usage__contenu" }}>
+    <Highlight bodyAs="div" className={cx("etat-usage", `etat-usage--${statut}`, fr.cx("fr-mb-6w", "fr-ml-0"))} classes={{ content: "etat-usage__contenu" }}>
       <Badge severity={etat.badge.severite} className={fr.cx("fr-mb-2w")}>
         {etat.badge.libelle}
       </Badge>
@@ -68,9 +70,9 @@ export function EtatUsage({ statut, desktop }: { statut: StatutSecteur; /** Usag
           </ul>
         </>
       )}
-      <div className={cx(desktop && fr.cx("fr-grid-row", "fr-grid-row--gutters", "fr-mb-1w"))}>
+      <div>
       {etat.usages?.map((usage) => (
-        <div key={usage.nom} className={fr.cx(desktop ? "fr-col-6" : "fr-mb-2w")}>
+        <div key={usage.nom} className={fr.cx("fr-mb-2w")}>
           <div className="etat-usage__usage">
             <h2 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-0")}>{usage.nom}</h2>
             <Badge small severity={BADGES_USAGE[usage.autorisation].severite} noIcon>
@@ -83,13 +85,13 @@ export function EtatUsage({ statut, desktop }: { statut: StatutSecteur; /** Usag
       </div>
       <p className={fr.cx("fr-text--sm")}>{etat.conclusion}</p>
       <hr className={fr.cx("fr-pb-3w")} />
-      <p className={cx(fr.cx("fr-text--sm"), desktop && "texte-italique")}>
+      <p className={fr.cx("fr-text--sm")}>
         Les consignes de votre mairie restent prioritaires.{" "}
         <button className={cx(fr.cx("fr-link", "fr-text--sm", "fr-icon-arrow-right-line", "fr-link--icon-right"), "lien-bouton")} {...boutonVolet({ type: "mairie" }, "ouvrir-mairie-etat")}>
           Suivre les infos locales
         </button>
       </p>
-      <p className={cx(fr.cx("fr-text--sm", "fr-mb-0"), desktop && "texte-italique")}>
+      <p className={fr.cx("fr-text--sm", "fr-mb-0")}>
         Ces informations concernent les foyers raccordés au réseau public.{" "}
         <button
           type="button"
@@ -116,7 +118,75 @@ export function EtatUsage({ statut, desktop }: { statut: StatutSecteur; /** Usag
         <>
           <hr className={fr.cx("fr-mt-3w", "fr-pb-3w")} />
           <ButtonsGroup
-            inlineLayoutWhen={desktop ? "always" : "never"}
+            inlineLayoutWhen="never"
+            buttons={[
+              {
+                children: `Origine de cette ${statut === "interdiction" ? "interdiction" : "restriction"}`,
+                priority: "secondary",
+                nativeButtonProps: boutonVolet({ type: "origine" }, "ouvrir-origine"),
+              },
+            ]}
+          />
+        </>
+      )}
+    </Highlight>
+  );
+}
+
+/**
+ * État d'usage en desktop (maquette « Restriction et avis face à face ») : badge et date sur une ligne,
+ * puis « Qui est concerné ? » et les usages dans trois encadrés côte à côte. Pour un usage autorisé,
+ * l'encadré donne la conclusion pour la population générale. Mentions en italique sans liens
+ * (le volet Mairie reste accessible par « Votre mairie »).
+ */
+function EtatUsageDesktop({ statut }: { statut: StatutSecteur }) {
+  const boutonVolet = useBoutonVolet();
+  const etat = ETATS[statut];
+  const usageAutorise = etat.usages?.find((usage) => usage.autorisation === "autorise");
+
+  return (
+    <Highlight bodyAs="div" className={cx("etat-usage", `etat-usage--${statut}`, fr.cx("fr-mb-0", "fr-ml-0", "fr-py-4w"))} classes={{ content: "etat-usage__contenu" }}>
+      <div className={cx("etat-usage__entete", fr.cx("fr-mb-3w"))}>
+        <Badge severity={etat.badge.severite}>{etat.badge.libelle}</Badge>
+        {etat.depuis && <p className={`${fr.cx("fr-text--sm", "fr-mb-0")} fr-text-mention--grey`}>{etat.depuis}</p>}
+      </div>
+      {etat.concernes && (
+        <div className={cx("etat-usage__encadres", fr.cx("fr-mb-3w"))}>
+          <div className={cx("etat-usage__encadre", fr.cx("fr-p-5v"))}>
+            <h2 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>Qui est concerné ?</h2>
+            <ul className={fr.cx("fr-text--sm", "fr-mb-0")}>
+              {etat.concernes.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </div>
+          {etat.usages?.map((usage) => (
+            <div key={usage.nom} className={cx("etat-usage__encadre", fr.cx("fr-p-5v"))}>
+              <div className={cx("etat-usage__usage", fr.cx("fr-mb-1v"))}>
+                <h2 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-0")}>{usage.nom}</h2>
+                <Badge small severity={BADGES_USAGE[usage.autorisation].severite} noIcon>
+                  {BADGES_USAGE[usage.autorisation].libelle}
+                </Badge>
+              </div>
+              <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{usage === usageAutorise ? etat.conclusion : usage.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {/* Sans usage autorisé (interdiction) ou sans restriction, la conclusion reste sous les encadrés. */}
+      {!usageAutorise && <p className={fr.cx("fr-text--sm")}>{etat.conclusion}</p>}
+      <hr className={fr.cx("fr-pb-3w")} />
+      <p className={cx(fr.cx("fr-text--md", "fr-mb-0"), "texte-italique", "fr-text-mention--grey")}>
+        Les consignes de votre mairie restent prioritaires.
+        <br />
+        Ces informations concernent les foyers raccordés au réseau public.
+      </p>
+      {statut !== "aucune" && (
+        <>
+          <hr className={fr.cx("fr-mt-3w", "fr-pb-3w")} />
+          <ButtonsGroup
+            inlineLayoutWhen="always"
+            buttonsSize="large"
             buttons={[
               {
                 children: `Origine de cette ${statut === "interdiction" ? "interdiction" : "restriction"}`,

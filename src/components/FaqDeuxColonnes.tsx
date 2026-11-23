@@ -4,6 +4,8 @@ import { fr } from "@codegouvfr/react-dsfr";
 
 type Props = {
   idTitre: string;
+  /** Marges de la section : accueil (80 / 96 px) ou fiche (56 / 64 px), d'après les maquettes. */
+  marges?: "accueil" | "fiche";
   /** Accordéons de la FAQ (colonne de droite). */
   children: ReactNode;
 };
@@ -11,11 +13,14 @@ type Props = {
 /**
  * Questions fréquentes en desktop (maquettes desktop de l'accueil et de la fiche) : titre, introduction
  * et lien vers toutes les questions à gauche (4 colonnes), accordéons à droite (8 colonnes).
- * Espacements de la maquette : 80 px en haut, 96 px en bas.
+ * Espacements des maquettes : 80 / 96 px sur l'accueil, 56 / 64 px sur la fiche.
  */
-export function FaqDeuxColonnes({ idTitre, children }: Props) {
+export function FaqDeuxColonnes({ idTitre, marges = "accueil", children }: Props) {
   return (
-    <section className={fr.cx("fr-container", "fr-pt-10w", "fr-pb-12w")} aria-labelledby={idTitre}>
+    <section
+      className={fr.cx("fr-container", ...(marges === "fiche" ? (["fr-pt-7w", "fr-pb-8w"] as const) : (["fr-pt-10w", "fr-pb-12w"] as const)))}
+      aria-labelledby={idTitre}
+    >
       <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters")}>
         <div className={fr.cx("fr-col-4")}>
           <h2 id={idTitre}>Questions fréquentes</h2>

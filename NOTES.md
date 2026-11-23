@@ -145,14 +145,28 @@ Maquette `maquettes/desktop-carte.png` (Figma 5551:92914, « Territoires visible
 
 ## Écarts avec les maquettes — Fiche du secteur desktop (v2)
 
-Maquette `maquettes/desktop-fiche-udi-restriction.png` (Figma 5541:99214, Lille Centre avec restriction), en mode Desktop à partir de lg seulement. Les autres statuts (interdiction, aucune restriction) suivent la même mise en page. Le mobile et le mode Mobile sur ordinateur ne changent pas : vérifié au pixel près sur les trois statuts, l'accueil et la carte.
-- **Mêmes contenus et mêmes composants qu'en mobile**, en colonnes : `EtatUsage`, `MesureQualite`, `VotreSecteur` et `ContactsUtiles` reçoivent une option `desktop`. La fiche desktop (`FicheDesktop`, dans `FicheSecteur.tsx`) les dispose en sections pleine largeur, sur fond blanc ou lavande `fr-background-alt--blue-france`.
-- **Haut de page** : état d'usage (7 colonnes), avec Alimentaire et Hygiène sur 2 colonnes, les deux mentions en italique (classe `texte-italique`, le DSFR n'a pas d'utilitaire d'italique) et le bouton « Origine de cette… » à sa largeur. À droite (5 colonnes), encadré blanc avec ombre (`encadre-ombre`, mêmes tokens que le bloc de recherche) « Avis sanitaire ». Il contient le CallOut « Dernière conclusion sanitaire », puis la note en italique grise, placée sous le CallOut comme sur la maquette (dedans sur mobile). **Écarts de contenu conservés** : la ligne de conclusion (« Population générale : … ») et les liens « Suivre les infos locales » / « Vérifier mon raccordement » restent, comme en mobile. La maquette n'a pas ces liens et met la conclusion dans la description de l'usage Hygiène.
-- **Pour aller plus loin** : les tuiles DSFR des contacts utiles, sur une ligne de 3 colonnes, séparées par des filets gris. **Exception** (CSS sur la tuile DSFR) : sans la barre bleue du bas, avec l'icône à droite centrée verticalement. Titres et descriptions gardent la taille des petites tuiles, un peu plus petite que sur la maquette.
-- **Mesure de la qualité** : bilan 2025 et suivi 2026 côte à côte, séparés par un filet vertical. Le bouton « Voir le détail des analyses » est à sa largeur.
-- **Votre secteur** : mini-carte sur 8 colonnes (460 px de haut) avec sa légende, et les 4 étapes sur 4 colonnes. L'étape 2 garde son libellé « Traitement appliqué » (« Traitement » sur la maquette).
-- **Questions fréquentes** : à gauche (4 colonnes) le titre, le texte d'introduction et « Voir toutes les questions » ; à droite (8 colonnes) les accordéons de la fiche.
-- **Volets** : inchangés, ancrés à droite (vérifié : Mairie, Origine, Analyses).
+Maquette `maquettes/desktop-fiche-udi-restriction.png` (Figma 5541:99214, « Restriction et avis face à face », Lille Centre avec restriction), mise à jour à la demande de l'utilisateur. Elle ne s'applique qu'en mode Desktop, à partir de lg. Les autres statuts (interdiction, aucune restriction) suivent la même mise en page. Le mobile et le mode Mobile sur ordinateur ne changent pas : vérifié au pixel près sur les trois statuts.
+- **Haut de page** : « Changer d'adresse », h1, communes, puis l'état d'usage sur toute la largeur (`EtatUsageDesktop`, mise en avant DSFR avec 32 px de marge en haut et en bas) :
+  - badge et date « Depuis le… » sur une ligne ;
+  - trois encadrés côte à côte (filet `--border-default-grey`, 20 px de marge intérieure, 16 px d'écart) : « Qui est concerné ? », « Alimentaire », « Hygiène et entretien » ;
+  - pour un usage autorisé, l'encadré donne la conclusion pour la population générale, comme la maquette (« Population générale : l'eau du robinet peut être utilisée sans restriction. »). En interdiction, les deux encadrés gardent leur description et la conclusion passe sous les encadrés. Sans restriction, pas d'encadré ;
+  - les deux mentions en italique, entre deux filets ;
+  - le bouton « Origine de cette… » en taille LG.
+  **Écart de contenu, suivant la maquette** : en desktop, les liens « Suivre les infos locales » et « Vérifier mon raccordement » ne sont plus affichés. Le volet Mairie reste accessible par « Votre mairie ». La vérification du raccordement n'existe qu'en mobile.
+- **Avis sanitaire et contacts**, sur fond lavande :
+  - à gauche, encadré blanc avec ombre (`encadre-ombre`) de 736 px à 1440 px : « Avis sanitaire », CallOut « Dernière conclusion sanitaire » et note en italique grise ;
+  - à droite, les tuiles DSFR des contacts (Votre mairie, Distributeur, ARS) empilées et séparées par des filets, centrées verticalement. Le titre « Pour aller plus loin » est masqué visuellement et reste pour les lecteurs d'écran.
+  **Exception** (CSS sur la tuile DSFR, `liste-tuiles--colonne`) : sans la barre bleue du bas, avec l'icône à droite centrée verticalement.
+- **Mesure de la qualité** :
+  - bilan 2025 et suivi 2026 côte à côte, sans filet vertical, le suivi décalé de 48 px ;
+  - compteurs du suivi sous la forme « nombre + badge DSFR » (« 3 PRÉLÈVEMENTS CONFORMES » en succès, « 1 DÉPASSEMENT DE LIMITE » en avertissement), comme la maquette. Les nombres viennent des données du prototype (3 dépassements pour Lille Centre) ;
+  - note en taille normale, bouton « Voir le détail des analyses » en taille LG.
+- **Votre secteur** :
+  - titre en taille `fr-h2` ;
+  - mini-carte de 736 × 460 px avec sa légende ;
+  - les 4 étapes : pastilles de 32 px, libellés et textes en taille normale, titres en `fr-text--lg`.
+  **Écarts gardés** : l'étape 2 s'appelle « Traitement appliqué » (« Traitement » sur la maquette), les pastilles restent bleu France (bleu plus clair sur la maquette) et la légende est à 8 px de la carte (16 px sur la maquette).
+- **Questions fréquentes** : même composant que l'accueil (`FaqDeuxColonnes`), avec les marges de la fiche (56 px en haut, 64 px en bas).
 
 ## Bandeau « Je donne mon avis » (desktop, v2)
 

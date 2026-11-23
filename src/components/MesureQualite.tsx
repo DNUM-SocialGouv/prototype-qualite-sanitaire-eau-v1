@@ -7,7 +7,7 @@ import { useBoutonVolet } from "../lib/contexteVolets";
 import { bilanPrelevements } from "../lib/analyses";
 
 /** Section « Mesure de la qualité de votre eau » : bilan 2025 noté, bilan 2026 en cours. */
-export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan et suivi côte à côte, séparés par un filet (maquette desktop). */ desktop?: boolean }) {
+export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan et suivi côte à côte, compteurs en badges (maquette desktop). */ desktop?: boolean }) {
   const boutonVolet = useBoutonVolet();
   const { conformes, depassements } = bilanPrelevements(codeUdi);
   return (
@@ -29,6 +29,25 @@ export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan
           En cours
         </Badge>
       </h3>
+      {desktop ? (
+        // Desktop (maquette) : nombre suivi d'un badge DSFR.
+        <ul className={fr.cx("fr-raw-list", "fr-mb-2w")}>
+          <li className={cx("ligne-badge", fr.cx("fr-mb-1w"))}>
+            <strong>{conformes}</strong>
+            <Badge severity="success" noIcon>
+              {`Prélèvement${conformes > 1 ? "s" : ""} conforme${conformes > 1 ? "s" : ""}`}
+            </Badge>
+          </li>
+          {depassements > 0 && (
+            <li className="ligne-badge">
+              <strong>{depassements}</strong>
+              <Badge severity="warning" noIcon>
+                {`Dépassement${depassements > 1 ? "s" : ""} de limite`}
+              </Badge>
+            </li>
+          )}
+        </ul>
+      ) : (
       <ul className={fr.cx("fr-raw-list", "fr-text--sm", "fr-mb-2w")}>
         <li className="ligne-icone">
           <span className={`${fr.cx("fr-icon-checkbox-circle-fill", "fr-icon--sm")} fr-text-default--info`} aria-hidden="true" />
@@ -45,11 +64,13 @@ export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan
           </li>
         )}
       </ul>
-      <p className={`${fr.cx("fr-text--sm")} fr-text-mention--grey`}>
+      )}
+      <p className={`${fr.cx(desktop ? "fr-text--md" : "fr-text--sm")} fr-text-mention--grey`}>
         La note 2026 sera attribuée en cours d’année 2027, une fois tous les prélèvements réalisés et interprétés.
       </p>
       <ButtonsGroup
         inlineLayoutWhen={desktop ? "always" : "never"}
+        buttonsSize={desktop ? "large" : "medium"}
         buttons={[
           {
             children: "Voir le détail des analyses",

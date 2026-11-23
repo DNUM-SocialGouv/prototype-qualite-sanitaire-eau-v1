@@ -6,7 +6,7 @@ import type { InfosCommune } from "../lib/communes";
 /** Section « Contact & liens utiles » : tuiles DSFR horizontales. */
 type Props = {
   infos: InfosCommune;
-  /** Desktop (maquette desktop) : « Pour aller plus loin », 3 liens sur une ligne séparés par des filets. */
+  /** Desktop (maquette desktop) : 3 liens empilés, séparés par des filets, à côté de l'avis sanitaire. */
   desktop?: boolean;
 };
 
@@ -15,10 +15,11 @@ export function ContactsUtiles({ infos, desktop }: Props) {
   const externe = (url: string, nom: string) => ({ href: url, target: "_blank", rel: "noopener noreferrer", title: `${nom} - nouvelle fenêtre` });
   return (
     <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-contacts">
-      <h2 id="titre-contacts" className={fr.cx("fr-h4")}>
+      {/* Desktop : la maquette n'affiche pas de titre, il reste pour les lecteurs d'écran. */}
+      <h2 id="titre-contacts" className={fr.cx(desktop ? "fr-sr-only" : "fr-h4")}>
         {desktop ? "Pour aller plus loin" : "Contact & liens utiles"}
       </h2>
-      <ul className={`${fr.cx("fr-raw-list")} liste-tuiles${desktop ? " liste-tuiles--ligne" : ""}`}>
+      <ul className={`${fr.cx("fr-raw-list")} liste-tuiles${desktop ? " liste-tuiles--colonne" : ""}`}>
         <li>
           <Tile
             title="Votre mairie"
