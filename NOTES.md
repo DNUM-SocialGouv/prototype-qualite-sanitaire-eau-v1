@@ -109,6 +109,14 @@
 
 ## Écarts avec les maquettes — Accueil desktop (v2)
 
+- **Espacements entre sections** (relevés dans Figma, nœuds 5541:95008 et 5541:94863), uniquement en desktop, avec les utilitaires DSFR :
+  - haut de page : 64 px en haut et en bas ;
+  - bloc « Rechercher un lieu » : 32 px de marge intérieure, 16 px entre les éléments, bouton « Explorer sur la carte » en taille LG ;
+  - « Mieux comprendre la qualité de l'eau » : 56 px en haut, 40 px sous le titre, 64 px en bas ;
+  - « Questions fréquentes » : 80 px en haut, 96 px en bas, accordéons en retrait de 56 px (x = 584 px, 736 px de large à 1440 px).
+  Le composant `FaqDeuxColonnes` est partagé : la FAQ de la fiche desktop reprend les mêmes espacements.
+  Écarts restants, dus aux composants DSFR, que l'on ne retouche pas : bascule de 40 px de haut au lieu de 48, et 24 px (marge du champ DSFR) au lieu de 16 px entre le champ et « ou ». Le bloc fait donc 396 px de haut au lieu de 392.
+
 Maquette `maquettes/desktop-accueil.png` (Figma 5541:95008). Elle ne s'applique qu'en mode Desktop, à partir du point de rupture lg du DSFR (992 px). Le mobile ne change pas : vérifié au pixel près (accueil, carte, menu burger) contre la version précédente.
 - **Header** : accès rapide « Carte » (`fr-icon-road-map-line`, vers /carte) à partir de lg. « Paramètres d'affichage » quitte alors le header et reste dans le pied de page. Sur mobile, le menu burger ne change pas.
 - **Écarts volontaires avec la maquette desktop (validés par l'utilisateur)** : l'intitulé reste « Qualité sanitaire des eaux » avec le badge « Prototype », partout (la maquette desktop indique « Qualité de l'eau », sans badge). Par cohérence, le texte du pied de page desktop commence par « Qualité sanitaire des eaux est le service public… » (la maquette dit « Qualité de l'eau est le service public… »). Sur mobile, ce texte ne change pas.

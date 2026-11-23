@@ -11,10 +11,11 @@ type Props = {
 /**
  * Questions fréquentes en desktop (maquettes desktop de l'accueil et de la fiche) : titre, introduction
  * et lien vers toutes les questions à gauche (4 colonnes), accordéons à droite (8 colonnes).
+ * Espacements de la maquette : 80 px en haut, 96 px en bas.
  */
 export function FaqDeuxColonnes({ idTitre, children }: Props) {
   return (
-    <section className={fr.cx("fr-container", "fr-py-8w")} aria-labelledby={idTitre}>
+    <section className={fr.cx("fr-container", "fr-pt-10w", "fr-pb-12w")} aria-labelledby={idTitre}>
       <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters")}>
         <div className={fr.cx("fr-col-4")}>
           <h2 id={idTitre}>Questions fréquentes</h2>
@@ -24,7 +25,8 @@ export function FaqDeuxColonnes({ idTitre, children }: Props) {
           </Link>
         </div>
         <div className={fr.cx("fr-col-8")}>
-          <div className={fr.cx("fr-accordions-group")}>{children}</div>
+          {/* Retrait de 56 px : accordéons à x = 584 px et 736 px de large à 1440 px, comme les maquettes. */}
+          <div className={fr.cx("fr-accordions-group", "fr-pl-7w")}>{children}</div>
         </div>
       </div>
     </section>

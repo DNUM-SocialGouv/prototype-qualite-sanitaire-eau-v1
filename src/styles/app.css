@@ -847,7 +847,7 @@ html.cadre-mobile body {
 
 @media (min-width: 62em) {
   .accueil-entete {
-    padding: 5rem 0;
+    padding: 4rem 0;
     background-color: var(--background-default-grey);
   }
 

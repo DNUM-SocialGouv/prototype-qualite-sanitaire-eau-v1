@@ -43,8 +43,9 @@ export function ArticlesQualite() {
   const desktop = useDesktop();
   return (
     <section className="fr-background-alt--blue-france" aria-labelledby="titre-articles">
-      <div className={fr.cx("fr-container", "fr-py-6w")}>
-        <h2 id="titre-articles">Mieux comprendre la qualité de l’eau</h2>
+      {/* Desktop : espacements de la maquette (56 px en haut, 40 px sous le titre, 64 px en bas). */}
+      <div className={fr.cx("fr-container", ...(desktop ? (["fr-pt-7w", "fr-pb-8w"] as const) : (["fr-py-6w"] as const)))}>
+        <h2 id="titre-articles" className={fr.cx(desktop && "fr-mb-5w")}>Mieux comprendre la qualité de l’eau</h2>
         <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters")}>
           {ARTICLES.map((article) => (
             <div key={article.slug} className={fr.cx("fr-col-12", "fr-col-md-6", "fr-col-lg-3")}>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
 import { fr } from "@codegouvfr/react-dsfr";
+import { useDesktop } from "../lib/useMediaQuery";
 import { BasculeTypeEau } from "./BasculeTypeEau";
 import { ChampSuggestions } from "./ChampSuggestions";
 import {
@@ -30,6 +31,8 @@ export function RechercheLieu() {
   const [typeEau, setTypeEau] = useState<TypeEau>("potable");
   const [message, setMessage] = useState<string>();
   const champ = CHAMP_PAR_TYPE[typeEau];
+  // Desktop : marges intérieures de 32 px (maquette desktop).
+  const desktop = useDesktop();
 
   function onSelection(suggestion: Suggestion) {
     if (typeEau === "baignade") {
@@ -42,7 +45,9 @@ export function RechercheLieu() {
   }
 
   return (
-    <div className="bloc-recherche fr-p-3w">
+    // Desktop : espacements de la maquette (32 px autour, 16 px entre les éléments, bouton LG).
+    // Le bas vaut 16 px car le groupe de boutons DSFR ajoute déjà 16 px sous le bouton.
+    <div className={`bloc-recherche ${desktop ? fr.cx("fr-pt-4w", "fr-px-4w", "fr-pb-2w") : fr.cx("fr-p-3w")}`}>
       <h2 className={fr.cx("fr-h4")}>Rechercher un lieu</h2>
       <BasculeTypeEau
         valeur={typeEau}
@@ -50,7 +55,7 @@ export function RechercheLieu() {
           setTypeEau(type);
           setMessage(undefined);
         }}
-        className={fr.cx("fr-mb-3w")}
+        className={fr.cx(desktop ? "fr-mb-2w" : "fr-mb-3w")}
       />
       <ChampSuggestions
         // Nouveau champ (saisie vidée) à chaque changement de type d'eau.
@@ -62,8 +67,9 @@ export function RechercheLieu() {
         onSaisie={() => setMessage(undefined)}
         message={message ? { etat: "info", texte: message } : undefined}
       />
-      <p className={fr.cx("fr-hr-or", "fr-my-3w")}>ou</p>
+      <p className={fr.cx("fr-hr-or", desktop ? "fr-my-2w" : "fr-my-3w")}>ou</p>
       <ButtonsGroup
+        buttonsSize={desktop ? "large" : "medium"}
         buttons={[
           {
             children: "Explorer sur la carte",
