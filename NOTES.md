@@ -164,8 +164,8 @@ Maquette `maquettes/desktop-fiche-udi-restriction.png` (Figma 5541:99214, « Res
 - **Votre secteur** :
   - titre en taille `fr-h2` ;
   - mini-carte de 736 × 460 px avec sa légende ;
-  - les 4 étapes : pastilles de 32 px, libellés et textes en taille normale, titres en `fr-text--lg`.
-  **Écarts gardés** : l'étape 2 s'appelle « Traitement appliqué » (« Traitement » sur la maquette), les pastilles restent bleu France (bleu plus clair sur la maquette) et la légende est à 8 px de la carte (16 px sur la maquette).
+  - les 4 étapes : pastilles de 32 px en bleu « information » DSFR (`--background-flat-info`, #0063cb, comme la maquette, aussi en mobile), libellés et textes en taille normale, titres en `fr-text--lg`.
+  **Écarts gardés** : l'étape 2 s'appelle « Traitement appliqué » (« Traitement » sur la maquette) et la légende est à 8 px de la carte (16 px sur la maquette).
 - **Questions fréquentes** : même composant que l'accueil (`FaqDeuxColonnes`), avec les marges de la fiche (56 px en haut, 64 px en bas).
 
 ## Bandeau « Je donne mon avis » (desktop, v2)

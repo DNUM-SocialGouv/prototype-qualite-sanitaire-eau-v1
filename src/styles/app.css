@@ -521,8 +521,9 @@
   justify-content: center;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--text-inverted-blue-france);
-  background-color: var(--background-active-blue-france);
+  /* Bleu « information » du DSFR (#0063cb), comme les maquettes. */
+  color: var(--text-inverted-info);
+  background-color: var(--background-flat-info);
   border-radius: 50%;
 }
 
