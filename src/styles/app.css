@@ -816,6 +816,7 @@ html.cadre-mobile body {
   border-color: var(--border-active-blue-france);
   box-shadow: inset 0 0 0 1px var(--border-active-blue-france);
   background-color: var(--background-action-low-blue-france);
+  color: var(--text-title-blue-france);
 }
 
 .selecteur-territoires__option input:focus-visible + label {
@@ -858,4 +859,31 @@ html.cadre-mobile body {
     flex-shrink: 0; /* sans quoi la carte (flex) la réduit en coupant une ligne */
     overflow: hidden;
   }
+}
+
+/* ---------- Écran carte desktop (mode Desktop, à partir de lg) ---------- */
+
+@media (min-width: 62em) {
+  /* Toute la hauteur sous le header : panneau de 405 px (défilement interne) et carte à droite. */
+  .ecran-carte--plein-ecran .ecran-carte__corps {
+    grid-template-columns: 25.3125rem 1fr;
+    height: calc(100vh - var(--hauteur-header, 0px));
+    border-bottom: 0;
+  }
+
+  /* Contrôles de la carte en haut à droite (maquette desktop) ; le panneau des fonds s'ouvre vers le bas. */
+  .ecran-carte--plein-ecran .carte-ign__controles {
+    top: 1rem;
+    bottom: auto;
+  }
+
+  .ecran-carte--plein-ecran .panneau-fond-carte {
+    top: 0;
+    bottom: auto;
+  }
+}
+
+/* Grille des territoires intégrée au panneau (desktop) : sans les marges du sélecteur mobile. */
+.selecteur-territoires__groupe--panneau {
+  padding: 0;
 }

@@ -117,6 +117,16 @@ Maquette `maquettes/desktop-accueil.png` (Figma 5541:95008). Elle ne s'applique 
 - **Questions fréquentes** : colonne centrée de 8 colonnes sur desktop. **Écarts conservés** : les accordéons restent fermés par défaut (comportement actuel, la maquette en montre trois ouverts pour la démonstration), et les intitulés gardent « les sujets qui intéressent » (la maquette écrit « Les sujets qui intéroge »).
 - **Pied de page** : texte, liens externes, ligne de liens obligatoires et licence etalab-2.0 viennent du composant DSFR, avec en plus le bouton « Changer d'affichage (mobile / desktop) ». Mêmes écarts que sur mobile : noms de domaine au lieu de « EauFrance » et « VigiEau », et ordre des liens du bas imposé par le composant (Plan du site en premier).
 
+## Écarts avec les maquettes — Carte desktop (v2)
+
+Maquette `maquettes/desktop-carte.png` (Figma 5551:93049), en mode Desktop à partir de lg seulement. Le mobile et le mode Mobile sur ordinateur ne changent pas (vérifié au pixel près).
+- **Mise en page** : l'écran occupe toute la hauteur sous le header, dont la hauteur est mesurée. Le pied de page vient après, hors de la vue. Panneau de 405 px à gauche (marges de 24 px, défilement interne) et carte sur le reste à droite (`EcranCarte` avec `pleinEcran`).
+- **Panneau** : h1 « Qualité de l'eau près de chez vous » (taille `fr-h4`), paragraphe d'introduction, bascule Eau potable / Baignade, recherche et « Utiliser ma position » existants (même comportement qu'en mobile), séparateur, h2 « Ou choisissez un territoire », puis la grille des territoires toujours visible. Sur mobile, le h1 reste masqué (« Carte de la qualité de l'eau »).
+- **Grille des territoires** : le même groupe de boutons radio que le sélecteur mobile (composant `GrilleTerritoires`), sans en-tête ni ✕. Un clic, ou Entrée / Espace, recentre la carte. **Différence avec le mobile** : les flèches recentrent aussi directement, comme un groupe de boutons radio natif, puisqu'il n'y a rien à fermer. Le nom du territoire sélectionné est en bleu France, comme sur les deux maquettes (aussi corrigé dans le sélecteur mobile).
+- **Carte** : zoom et fonds de carte en haut à droite. Le panneau des fonds s'ouvre alors vers le bas. Pas de bouton Territoires. Zones, marqueurs, légende et volets (à droite) ne changent pas.
+- **Message d'aide retiré en desktop** : « Zoomez sur une ville… » / « Cliquez sur un secteur… » (`fr-message--info`) n'est pas sur la maquette desktop. Il reste sur mobile.
+- **Champs** : la recherche et les boutons gardent la taille DSFR par défaut (40 px), un peu plus hauts sur la maquette.
+
 ## Écarts avec les maquettes — Carte et choix du secteur
 
 - **Fonds IGN non vérifiés en local** : `data.geopf.fr` est inaccessible depuis l'environnement de développement ; l'affichage des fonds (Plan IGN, photographies aériennes, limites administratives `LIMITES_ADMINISTRATIVES_EXPRESS.LATEST`) est à vérifier sur le site publié. Les vignettes du sélecteur de fond sont de vraies tuiles IGN (Lille, zoom 12).
