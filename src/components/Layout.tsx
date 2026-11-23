@@ -25,8 +25,6 @@ const brandTop = (
 
 const homeLinkProps = { to: "/", title: "Accueil - Qualité sanitaire des eaux" };
 
-const accesCarte = { iconId: "fr-icon-road-map-line", text: "Carte", linkProps: { to: "/carte" } } as const;
-
 /** Lien « Changer d'affichage » : dans la colonne, la page parente rouvre le choix. */
 const itemChangerAffichage = {
   text: "Changer d'affichage (mobile / desktop)",
@@ -61,7 +59,8 @@ export function Layout() {
         }
         serviceTagline="Suivez la qualité de l'eau en France"
         // Desktop : accès rapide « Carte » (maquette desktop) ; les paramètres d'affichage restent dans le pied de page.
-        quickAccessItems={desktop ? [accesCarte] : [headerFooterDisplayItem]}
+        // Desktop : pas d'accès rapide « Carte » (demande de l'utilisateur) ; les paramètres d'affichage sont dans le pied de page.
+        quickAccessItems={desktop ? [] : [headerFooterDisplayItem]}
       />
       <main id="contenu" tabIndex={-1}>
         <Outlet />
