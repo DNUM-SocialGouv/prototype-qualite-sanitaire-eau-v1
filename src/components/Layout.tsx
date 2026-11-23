@@ -17,7 +17,7 @@ const brandTop = (
     <br />
     de la Santé, des Familles,
     <br />
-    de l'Autonomie
+    de l’Autonomie
     <br />
     et des Personnes handicapées
   </>
