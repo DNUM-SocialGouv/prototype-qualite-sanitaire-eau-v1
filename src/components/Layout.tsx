@@ -8,7 +8,7 @@ import { Outlet, ScrollRestoration } from "react-router-dom";
 import { AvertissementPrototype, ChangementAffichage } from "./AvertissementPrototype";
 import { modaleChangementAffichage } from "./modalesAccueil";
 import { dansLeCadre, demanderChangementAffichage, REQUETE_GRAND_ECRAN } from "../lib/cadreMobile";
-import { useMediaQuery } from "../lib/useMediaQuery";
+import { useDesktop, useMediaQuery } from "../lib/useMediaQuery";
 
 const brandTop = (
   <>
@@ -24,6 +24,8 @@ const brandTop = (
 
 const homeLinkProps = { to: "/", title: "Accueil - Qualité sanitaire des eaux" };
 
+const accesCarte = { iconId: "fr-icon-road-map-line", text: "Carte", linkProps: { to: "/carte" } } as const;
+
 /** Lien « Changer d'affichage » : dans la colonne, la page parente rouvre le choix. */
 const itemChangerAffichage = {
   text: "Changer d'affichage (mobile / desktop)",
@@ -34,6 +36,7 @@ export function Layout() {
   // Le choix d'affichage n'existe qu'à partir de 576 px (la colonne en fait toujours partie).
   const grandEcran = useMediaQuery(REQUETE_GRAND_ECRAN);
   const choixAffichage = dansLeCadre || grandEcran;
+  const desktop = useDesktop();
   return (
     <>
       <SkipLinks
@@ -55,7 +58,8 @@ export function Layout() {
           </>
         }
         serviceTagline="Suivez la qualité de l'eau en France"
-        quickAccessItems={[headerFooterDisplayItem]}
+        // Desktop : accès rapide « Carte » (maquette desktop) ; les paramètres d'affichage restent dans le pied de page.
+        quickAccessItems={desktop ? [accesCarte] : [headerFooterDisplayItem]}
       />
       <main id="contenu" tabIndex={-1}>
         <Outlet />

@@ -835,3 +835,27 @@ html.cadre-mobile body {
   width: 100%;
   height: 100%;
 }
+
+/* ---------- Accueil desktop (mode Desktop, à partir de lg) ---------- */
+
+/* Haut de page : fond lavande sur mobile (maquette mobile), blanc sur desktop (maquette desktop). */
+.accueil-entete {
+  padding: 3rem 0;
+  background-color: var(--background-alt-blue-france);
+}
+
+@media (min-width: 62em) {
+  .accueil-entete {
+    padding: 5rem 0;
+    background-color: var(--background-default-grey);
+  }
+
+  /* Cartes articles : description tronquée sur 4 lignes, comme la maquette (exception, cf. NOTES.md). */
+  .carte-article .fr-card__desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    flex-shrink: 0; /* sans quoi la carte (flex) la réduit en coupant une ligne */
+    overflow: hidden;
+  }
+}

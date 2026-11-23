@@ -1,6 +1,7 @@
 import { Card } from "@codegouvfr/react-dsfr/Card";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { fr } from "@codegouvfr/react-dsfr";
+import { useDesktop } from "../lib/useMediaQuery";
 
 const ARTICLES = [
   {
@@ -38,6 +39,8 @@ const ARTICLES = [
 ];
 
 export function ArticlesQualite() {
+  // Desktop : cartes compactes, description tronquée (maquette desktop, cf. NOTES.md).
+  const desktop = useDesktop();
   return (
     <section className="fr-background-alt--blue-france" aria-labelledby="titre-articles">
       <div className={fr.cx("fr-container", "fr-py-6w")}>
@@ -46,6 +49,8 @@ export function ArticlesQualite() {
           {ARTICLES.map((article) => (
             <div key={article.slug} className={fr.cx("fr-col-12", "fr-col-md-6", "fr-col-lg-3")}>
               <Card
+                className="carte-article"
+                size={desktop ? "small" : "medium"}
                 title={article.titre}
                 titleAs="h3"
                 desc={article.description}

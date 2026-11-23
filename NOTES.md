@@ -107,6 +107,15 @@
 - **Coins arrondis du volet** sur mobile : non repris (pas d'arrondi sur la modale DSFR).
 - **FAQ** : les réponses « Comment vérifier si mon logement est raccordé… » et « À quelle fréquence… » sont des textes provisoires (illisibles sur la maquette).
 
+## Écarts avec les maquettes — Accueil desktop (v2)
+
+Maquette `maquettes/desktop-accueil.png` (Figma 5541:95008). Elle ne s'applique qu'en mode Desktop, à partir du point de rupture lg du DSFR (992 px). Le mobile ne change pas : vérifié au pixel près (accueil, carte, menu burger) contre la version précédente.
+- **Header** : accès rapide « Carte » (`fr-icon-road-map-line`, vers /carte) à partir de lg. « Paramètres d'affichage » quitte alors le header et reste dans le pied de page. Sur mobile, le menu burger ne change pas. **Intitulé** : la maquette indique « Qualité de l'eau » sans badge. En attendant la réponse de l'utilisateur, on garde « Qualité sanitaire des eaux » et le badge « Prototype ».
+- **Haut de page** : fond blanc sur desktop et lavande sur mobile (classe `accueil-entete`, tokens DSFR), plus d'espace vertical (5rem). Colonnes 6 / 5, avec une colonne de décalage avant la recherche. Paragraphe d'introduction en `fr-text--lg`.
+- **Cartes articles** : 4 par ligne (déjà le cas), en `fr-card--sm` sur desktop (titre de 18 px, marges de 24 px comme la maquette). Description tronquée à 4 lignes avec « … » (**exception** : `line-clamp` sur `fr-card__desc`, le DSFR ne propose pas de troncature). Sur la maquette, la troncature varie d'une carte à l'autre (3 à 5 lignes) : on garde 4 lignes partout.
+- **Questions fréquentes** : colonne centrée de 8 colonnes sur desktop. **Écarts conservés** : les accordéons restent fermés par défaut (comportement actuel, la maquette en montre trois ouverts pour la démonstration), et les intitulés gardent « les sujets qui intéressent » (la maquette écrit « Les sujets qui intéroge »).
+- **Pied de page** : texte, liens externes, ligne de liens obligatoires et licence etalab-2.0 viennent du composant DSFR, avec en plus le bouton « Changer d'affichage (mobile / desktop) ». Mêmes écarts que sur mobile : noms de domaine au lieu de « EauFrance » et « VigiEau », et ordre des liens du bas imposé par le composant (Plan du site en premier).
+
 ## Écarts avec les maquettes — Carte et choix du secteur
 
 - **Fonds IGN non vérifiés en local** : `data.geopf.fr` est inaccessible depuis l'environnement de développement ; l'affichage des fonds (Plan IGN, photographies aériennes, limites administratives `LIMITES_ADMINISTRATIVES_EXPRESS.LATEST`) est à vérifier sur le site publié. Les vignettes du sélecteur de fond sont de vraies tuiles IGN (Lille, zoom 12).
