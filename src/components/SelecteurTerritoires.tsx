@@ -54,7 +54,7 @@ export function GrilleTerritoires({ actif, onActif, onChoix, className, groupe }
               aria-hidden="true"
               dangerouslySetInnerHTML={{ __html: silhouette(territoire.id) }}
             />
-            {territoire.nom}
+            <span className="selecteur-territoires__nom">{territoire.nom}</span>
           </label>
         </div>
       ))}
