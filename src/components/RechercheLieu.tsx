@@ -61,7 +61,8 @@ export function RechercheLieu() {
         // Nouveau champ (saisie vidée) à chaque changement de type d'eau.
         key={typeEau}
         label={champ.label}
-        placeholder={champ.placeholder}
+        // Desktop, eau potable : exemple d'adresse de la maquette desktop.
+        placeholder={desktop && typeEau === "potable" ? "Ex. : 12 rue Nationale, Lille" : champ.placeholder}
         chercher={champ.chercher}
         onSelection={onSelection}
         onSaisie={() => setMessage(undefined)}

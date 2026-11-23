@@ -111,3 +111,31 @@ export function SelecteurTerritoires({ valeur, onChoix, onFermer }: Props) {
     </section>
   );
 }
+
+type PropsBande = {
+  /** Territoire affiché sur la carte. */
+  valeur: IdTerritoire;
+  /** Choix d'un territoire (clic, flèches, Entrée / Espace) : la carte se recentre directement. */
+  onChoix: (id: IdTerritoire) => void;
+};
+
+/**
+ * Territoires en desktop (maquette « bande sur la carte ») : bande blanche posée en bas de la carte,
+ * avec les 10 vignettes sur une ligne. Même groupe de boutons radio que le sélecteur mobile.
+ */
+export function BandeTerritoires({ valeur, onChoix }: PropsBande) {
+  const id = useId();
+  return (
+    <section className="bande-territoires" aria-labelledby={`${id}-titre`}>
+      <h2 id={`${id}-titre`} className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>
+        Territoires
+      </h2>
+      <GrilleTerritoires
+        actif={valeur}
+        onActif={onChoix}
+        onChoix={onChoix}
+        className="selecteur-territoires__groupe--bande"
+      />
+    </section>
+  );
+}

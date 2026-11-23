@@ -127,13 +127,21 @@ Maquette `maquettes/desktop-accueil.png` (Figma 5541:95008). Elle ne s'applique 
 
 ## Écarts avec les maquettes — Carte desktop (v2)
 
-Maquette `maquettes/desktop-carte.png` (Figma 5551:93049), en mode Desktop à partir de lg seulement. Le mobile et le mode Mobile sur ordinateur ne changent pas (vérifié au pixel près).
+Maquette `maquettes/desktop-carte.png` (Figma 5551:92914, « Territoires visibles · V1 bande sur la carte »), qui remplace la première maquette (5551:93049) à la demande de l'utilisateur. Elle ne s'applique qu'en mode Desktop, à partir de lg. Le mobile et le mode Mobile sur ordinateur ne changent pas (vérifié au pixel près sur l'accueil et la carte).
 - **Mise en page** : l'écran occupe toute la hauteur sous le header, dont la hauteur est mesurée. Le pied de page vient après, hors de la vue. Panneau de 405 px à gauche (marges de 24 px, défilement interne) et carte sur le reste à droite (`EcranCarte` avec `pleinEcran`).
-- **Panneau** : h1 « Qualité de l'eau près de chez vous » (taille `fr-h4`), paragraphe d'introduction, bascule Eau potable / Baignade, recherche et « Utiliser ma position » existants (même comportement qu'en mobile), séparateur, h2 « Ou choisissez un territoire », puis la grille des territoires toujours visible. Sur mobile, le h1 reste masqué (« Carte de la qualité de l'eau »).
-- **Grille des territoires** : le même groupe de boutons radio que le sélecteur mobile (composant `GrilleTerritoires`), sans en-tête ni ✕. Un clic, ou Entrée / Espace, recentre la carte. **Différence avec le mobile** : les flèches recentrent aussi directement, comme un groupe de boutons radio natif, puisqu'il n'y a rien à fermer. Le nom du territoire sélectionné est en bleu France, comme sur les deux maquettes (aussi corrigé dans le sélecteur mobile).
-- **Carte** : zoom et fonds de carte en haut à droite. Le panneau des fonds s'ouvre alors vers le bas. Pas de bouton Territoires. Zones, marqueurs, légende et volets (à droite) ne changent pas.
-- **Message d'aide retiré en desktop** : « Zoomez sur une ville… » / « Cliquez sur un secteur… » (`fr-message--info`) n'est pas sur la maquette desktop. Il reste sur mobile.
-- **Champs** : la recherche et les boutons gardent la taille DSFR par défaut (40 px), un peu plus hauts sur la maquette.
+- **Panneau**, avec 16 px entre les éléments :
+  - h1 « Rechercher un lieu » (taille `fr-h5`) ;
+  - « Consultez la qualité de l'eau du robinet ou de baignade près de chez vous. » ;
+  - bascule Eau potable / Baignade ;
+  - recherche avec libellé visible « Rechercher une adresse ou une commune » et exemple « Ex. : 12 rue Nationale, Lille » ;
+  - « Utiliser ma position » en taille LG.
+  Même comportement qu'en mobile. Sur mobile, le h1 reste masqué (« Carte de la qualité de l'eau »).
+- **Territoires** : bande blanche avec ombre (`--raised-shadow`) posée en bas de la carte, à 24 px des bords, titre « Territoires » et les 10 vignettes sur une ligne (`BandeTerritoires`). C'est le même groupe de boutons radio que le sélecteur mobile (`GrilleTerritoires`). Un clic, les flèches, Entrée ou Espace recentrent directement la carte. Le nom du territoire sélectionné est en bleu France. La mention « © IGN / Géoplateforme » reste visible sous la bande.
+- **Carte** : zoom et fonds de carte en haut à droite. Le panneau des fonds s'ouvre alors vers le bas. Pas de bouton Territoires. La légende des zones passe en haut à gauche, la bande occupant le bas. Zones, marqueurs et volets (à droite) ne changent pas.
+- **Header** : sans l'accès rapide « Carte » présent sur la maquette (retiré partout en desktop, à la demande de l'utilisateur).
+- **Message d'aide retiré en desktop** : « Zoomez sur une ville… » / « Cliquez sur un secteur… » (`fr-message--info`) n'est pas sur la maquette. Il reste sur mobile.
+- **Hauteurs** : la bascule DSFR fait 40 px (48 sur la maquette). Le champ et le bouton sont donc placés 8 px plus haut que sur la maquette.
+- **Accueil desktop** : le champ de recherche reprend l'exemple « Ex. : 12 rue Nationale, Lille » en eau potable (à la demande de l'utilisateur). En baignade, l'exemple reste « Plage, lac, rivière, commune… ».
 
 ## Écarts avec les maquettes — Fiche du secteur desktop (v2)
 

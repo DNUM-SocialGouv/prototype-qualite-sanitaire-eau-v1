@@ -883,9 +883,29 @@ html.cadre-mobile body {
   }
 }
 
-/* Grille des territoires intégrée au panneau (desktop) : sans les marges du sélecteur mobile. */
-.selecteur-territoires__groupe--panneau {
+/* Territoires en desktop : bande blanche posée en bas de la carte, 10 vignettes sur une ligne
+ * (maquette « bande sur la carte », cf. NOTES.md). La mention © IGN reste visible en dessous. */
+.bande-territoires {
+  position: absolute;
+  z-index: 1000; /* au-dessus des couches Leaflet */
+  right: 1.5rem;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  padding: 0.5rem;
+  background-color: var(--background-default-grey);
+  box-shadow: var(--raised-shadow);
+}
+
+.selecteur-territoires__groupe--bande {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 0.25rem;
   padding: 0;
+}
+
+/* Desktop : la légende des zones passe en haut à gauche, la bande occupe le bas de la carte. */
+.ecran-carte--plein-ecran .carte-ign__legende--gauche {
+  top: 1rem;
+  bottom: auto;
 }
 
 /* ---------- Fiche du secteur desktop (mode Desktop, à partir de lg) ---------- */

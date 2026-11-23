@@ -10,12 +10,14 @@ import { communeContenant, COMMUNES_AVEC_DONNEES, NOMS_COMMUNES_AVEC_DONNEES, ro
 type Props = {
   /** Appelé avec la position de l'utilisateur, pour centrer la carte et poser un marqueur. */
   onLocalisation: (lat: number, lon: number) => void;
+  /** Desktop (maquette desktop) : libellé visible, exemple d'adresse et bouton de taille LG. */
+  desktop?: boolean;
 };
 
 type Message = { severite: "info" | "error"; texte: string };
 
 /** Panneau de l'écran carte en eau potable : recherche de commune et géolocalisation. */
-export function RechercheCarte({ onLocalisation }: Props) {
+export function RechercheCarte({ onLocalisation, desktop }: Props) {
   const navigate = useNavigate();
   const [messageRecherche, setMessageRecherche] = useState<string>();
   const [messagePosition, setMessagePosition] = useState<Message>();
@@ -62,15 +64,16 @@ export function RechercheCarte({ onLocalisation }: Props) {
   return (
     <>
       <ChampSuggestions
-        label="Rechercher une commune"
-        masquerLibelle
-        placeholder="Recherche"
+        label={desktop ? "Rechercher une adresse ou une commune" : "Rechercher une commune"}
+        masquerLibelle={!desktop}
+        placeholder={desktop ? "Ex. : 12 rue Nationale, Lille" : "Recherche"}
         chercher={chercherCommunes}
         onSelection={onSelection}
         onSaisie={() => setMessageRecherche(undefined)}
         message={messageRecherche ? { etat: "info", texte: messageRecherche } : undefined}
       />
       <ButtonsGroup
+        buttonsSize={desktop ? "large" : "medium"}
         buttons={[
           {
             children: localisationEnCours ? "Localisation en cours…" : "Utiliser ma position",

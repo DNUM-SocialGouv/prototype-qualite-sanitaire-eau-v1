@@ -11,7 +11,7 @@ import { BasculeTypeEau } from "../components/BasculeTypeEau";
 import { RechercheCarte } from "../components/RechercheCarte";
 import { ZonesSecteurs } from "../components/ZonesSecteurs";
 import { LegendeZone } from "../components/LegendeZone";
-import { GrilleTerritoires, SelecteurTerritoires } from "../components/SelecteurTerritoires";
+import { BandeTerritoires, SelecteurTerritoires } from "../components/SelecteurTerritoires";
 import { useDesktop } from "../lib/useMediaQuery";
 import { TOUS_LES_SECTEURS } from "../lib/secteurs";
 import { VUE_FRANCE } from "../lib/carte";
@@ -67,7 +67,7 @@ export function Carte() {
     };
   }, [carte]);
 
-  // Desktop : la grille des territoires est toujours visible dans le panneau, le choix recentre directement.
+  // Desktop : les territoires sont dans une bande posée en bas de la carte, le choix recentre directement.
   const desktop = useDesktop();
   const recentrer = (id: IdTerritoire) => {
     setTerritoire(id);
@@ -108,23 +108,13 @@ export function Carte() {
       baignadeBientot
     );
 
-  // Desktop (maquette desktop) : sans le message d'aide, absent de la maquette (cf. NOTES.md).
+  // Desktop (maquette desktop « bande sur la carte ») : sans le message d'aide, absent de la maquette (cf. NOTES.md).
   const panneauDesktop = (
     <>
-      <h1 className={fr.cx("fr-h4", "fr-mb-2w")}>Qualité de l’eau près de chez vous</h1>
-      <p className={fr.cx("fr-mb-3w")}>
-        Recherchez une commune ou une adresse pour connaître la qualité de l’eau du robinet ou de baignade.
-      </p>
-      <div className={fr.cx("fr-mb-3w")}>{bascule}</div>
-      {typeEau === "potable" ? <RechercheCarte onLocalisation={onLocalisation} /> : baignadeBientot}
-      <hr className={fr.cx("fr-mt-0", "fr-pb-3w")} />
-      <h2 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-2w")}>Ou choisissez un territoire</h2>
-      <GrilleTerritoires
-        actif={territoire}
-        onActif={recentrer}
-        onChoix={recentrer}
-        className="selecteur-territoires__groupe--panneau"
-      />
+      <h1 className={fr.cx("fr-h5", "fr-mb-2w")}>Rechercher un lieu</h1>
+      <p className={fr.cx("fr-mb-2w")}>Consultez la qualité de l’eau du robinet ou de baignade près de chez vous.</p>
+      <div className={fr.cx("fr-mb-2w")}>{bascule}</div>
+      {typeEau === "potable" ? <RechercheCarte desktop onLocalisation={onLocalisation} /> : baignadeBientot}
     </>
   );
 
@@ -137,7 +127,12 @@ export function Carte() {
         carte={
           <CarteIgn
             onPrete={setCarte}
-            surCarte={secteursVisibles && <LegendeZone aGauche />}
+            surCarte={
+              <>
+                {secteursVisibles && <LegendeZone aGauche />}
+                {desktop && <BandeTerritoires valeur={territoire} onChoix={recentrer} />}
+              </>
+            }
             controlesGauche={
               // Desktop : pas de bouton Territoires, la grille est dans le panneau.
               !desktop && (
