@@ -70,7 +70,8 @@ export function Layout() {
         homeLinkProps={homeLinkProps}
         accessibility="partially compliant"
         accessibilityLinkProps={{ to: "/accessibilite" }}
-        contentDescription="Qualité de l’eau est le service public pour s’informer sur la qualité de l’eau en France grâce aux données officielles du contrôle sanitaire."
+        // Desktop : intitulé du service repris dans le texte (demande validée, écart avec la maquette desktop).
+        contentDescription={`${desktop ? "Qualité sanitaire des eaux" : "Qualité de l’eau"} est le service public pour s’informer sur la qualité de l’eau en France grâce aux données officielles du contrôle sanitaire.`}
         domains={["sante.gouv.fr", "sante.fr", "eaufrance.fr", "vigieau.gouv.fr"]}
         termsLinkProps={{ to: "/mentions-legales" }}
         websiteMapLinkProps={{ to: "/plan-du-site" }}
