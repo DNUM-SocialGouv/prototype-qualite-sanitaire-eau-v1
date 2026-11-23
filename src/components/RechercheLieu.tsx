@@ -16,7 +16,8 @@ import { COMMUNES_AVEC_DONNEES, NOMS_COMMUNES_AVEC_DONNEES, routeCommune } from 
 const CHAMP_PAR_TYPE = {
   potable: {
     label: "Rechercher une adresse ou une commune",
-    placeholder: "Adresse, commune…",
+    // Exemple d'adresse de la maquette desktop, repris aussi en mobile (demande de l'utilisateur).
+    placeholder: "Ex. : 12 rue Nationale, Lille",
     chercher: chercherCommunes,
   },
   baignade: {
@@ -61,8 +62,7 @@ export function RechercheLieu() {
         // Nouveau champ (saisie vidée) à chaque changement de type d'eau.
         key={typeEau}
         label={champ.label}
-        // Desktop, eau potable : exemple d'adresse de la maquette desktop.
-        placeholder={desktop && typeEau === "potable" ? "Ex. : 12 rue Nationale, Lille" : champ.placeholder}
+        placeholder={champ.placeholder}
         chercher={champ.chercher}
         onSelection={onSelection}
         onSaisie={() => setMessage(undefined)}

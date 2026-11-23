@@ -141,7 +141,7 @@ Maquette `maquettes/desktop-carte.png` (Figma 5551:92914, « Territoires visible
 - **Header** : sans l'accès rapide « Carte » présent sur la maquette (retiré partout en desktop, à la demande de l'utilisateur).
 - **Message d'aide retiré en desktop** : « Zoomez sur une ville… » / « Cliquez sur un secteur… » (`fr-message--info`) n'est pas sur la maquette. Il reste sur mobile.
 - **Hauteurs** : la bascule DSFR fait 40 px (48 sur la maquette). Le champ et le bouton sont donc placés 8 px plus haut que sur la maquette.
-- **Accueil desktop** : le champ de recherche reprend l'exemple « Ex. : 12 rue Nationale, Lille » en eau potable (à la demande de l'utilisateur). En baignade, l'exemple reste « Plage, lac, rivière, commune… ».
+- **Accueil, desktop et mobile** : le champ de recherche reprend l'exemple « Ex. : 12 rue Nationale, Lille » en eau potable (à la demande de l'utilisateur). En baignade, l'exemple reste « Plage, lac, rivière, commune… ».
 
 ## Écarts avec les maquettes — Fiche du secteur desktop (v2)
 
