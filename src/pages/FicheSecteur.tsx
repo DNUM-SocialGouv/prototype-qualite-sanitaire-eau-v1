@@ -11,6 +11,7 @@ import { MesureQualite } from "../components/MesureQualite";
 import { VotreSecteur } from "../components/VotreSecteur";
 import { ContactsUtiles } from "../components/ContactsUtiles";
 import { QuestionFaq } from "../components/QuestionFaq";
+import { FaqDeuxColonnes } from "../components/FaqDeuxColonnes";
 import { routeCommune, secteurParCode, type StatutSecteur } from "../lib/secteurs";
 import { infosCommune } from "../lib/communes";
 import { useDesktop } from "../lib/useMediaQuery";
@@ -213,20 +214,7 @@ function FicheDesktop({ enTete, codeUdi, statut, secteur, infos }: PropsDesktop)
           <VotreSecteur secteur={secteur} infos={infos} desktop />
         </div>
       </div>
-      <section className={fr.cx("fr-container", "fr-py-8w")} aria-labelledby="titre-faq-fiche">
-        <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters")}>
-          <div className={fr.cx("fr-col-4")}>
-            <h2 id="titre-faq-fiche">Questions fréquentes</h2>
-            <p>Les réponses aux questions les plus posées sur l’eau du robinet et les eaux de baignade.</p>
-            <Link to="/faq" className={fr.cx("fr-link", "fr-icon-arrow-right-line", "fr-link--icon-right")}>
-              Voir toutes les questions
-            </Link>
-          </div>
-          <div className={fr.cx("fr-col-8")}>
-            <div className={fr.cx("fr-accordions-group")}>{QUESTIONS_FICHE}</div>
-          </div>
-        </div>
-      </section>
+      <FaqDeuxColonnes idTitre="titre-faq-fiche">{QUESTIONS_FICHE}</FaqDeuxColonnes>
     </>
   );
 }
