@@ -124,7 +124,7 @@ export function FicheSecteur() {
             </h2>
             <h3 className={fr.cx("fr-text--lg", "fr-text--bold", "fr-mb-1w")}>Dernière conclusion sanitaire</h3>
             <p className={fr.cx("fr-text--sm", "fr-mb-3w")}>{CONCLUSIONS[statut]}</p>
-            <p className={`${fr.cx("fr-text--xs", "fr-mb-0")} fr-text-mention--grey`}>
+            <p className={`${fr.cx("fr-text--sm", "fr-mb-0")} fr-text-mention--grey`}>
               <em>{NOTE_CONCLUSION}</em>
             </p>
           </section>

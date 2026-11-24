@@ -237,7 +237,7 @@ Maquette `maquettes/mobile-fiche-udi-restriction.png` (Figma 5575:94519, Lille C
   - mentions en italique grise, sans liens ;
   - bouton « Origine de cette… » en taille LG, à sa largeur.
   **Écart de contenu, suivant la maquette** : les liens « Suivre les infos locales » et « Vérifier mon raccordement » sont retirés aussi en mobile. Le volet Mairie reste accessible par « Votre mairie ». La vérification du raccordement n'est plus proposée.
-- **Avis sanitaire** (fond lavande, remplace « Suivi sanitaire ») : titre `fr-h4`, « Dernière conclusion sanitaire » (h3, 18 px gras), la conclusion en texte simple (14 px) et la note en italique grise (12 px). Plus de CallOut. Puis « Contact & liens utiles » dans la même section : les tuiles DSFR des contacts empilées et séparées par des filets (même présentation qu'en desktop, sans retrait), titres en 18 px, descriptions en 14 px.
+- **Avis sanitaire** (fond lavande, remplace « Suivi sanitaire ») : titre `fr-h4`, « Dernière conclusion sanitaire » (h3, 18 px gras), la conclusion en texte simple (14 px) et la note en italique grise (14 px, à la demande de l’utilisateur ; 12 px sur la maquette). Plus de CallOut. Puis « Contact & liens utiles » dans la même section : les tuiles DSFR des contacts empilées et séparées par des filets (même présentation qu'en desktop, sans retrait), titres en 18 px, descriptions en 14 px.
 - **Mesure de la qualité** : compteurs « nombre + badge DSFR », comme en desktop ; bouton « Voir le détail des analyses » en taille LG, pleine largeur.
 - **Votre secteur** (fond lavande) :
   - mini-carte aux proportions de la maquette (310 × 283), légende à 24 px ;
