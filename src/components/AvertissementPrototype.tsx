@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
 import { SegmentedControl } from "@codegouvfr/react-dsfr/SegmentedControl";
-import { modaleAccueil, modaleChangementAffichage } from "./modalesAccueil";
+import { modaleAccueil } from "./modalesAccueil";
 import { enregistrerAffichage, useAffichage, type ModeAffichage } from "../lib/affichage";
 import { REQUETE_GRAND_ECRAN } from "../lib/cadreMobile";
 import { useMediaQuery } from "../lib/useMediaQuery";
@@ -132,29 +132,5 @@ export function AvertissementPrototype() {
     >
       <ContenuAccueil avecChoix={grandEcran} mode={choix} onMode={setChoix} onValider={valider} />
     </modaleAccueil.Component>
-  );
-}
-
-/**
- * La même modale, rouverte depuis le pied de page (« Changer d'affichage ») : l'avertissement
- * est déjà accepté, elle se ferme donc normalement (Fermer, Échap, clic sur le fond).
- */
-export function ChangementAffichage() {
-  const { mode } = useAffichage();
-  const [choix, setChoix] = useState<ModeAffichage>(mode);
-  const valider = useValidation(modaleChangementAffichage.id, choix, modaleChangementAffichage.close);
-
-  // À chaque ouverture, le choix repart du mode en cours.
-  useEffect(() => {
-    const dialogue = document.getElementById(modaleChangementAffichage.id);
-    const reinitialiser = () => setChoix(mode);
-    dialogue?.addEventListener("dsfr.disclose", reinitialiser);
-    return () => dialogue?.removeEventListener("dsfr.disclose", reinitialiser);
-  }, [mode]);
-
-  return (
-    <modaleChangementAffichage.Component className="modale-centree" title={TITRE}>
-      <ContenuAccueil avecChoix mode={choix} onMode={setChoix} onValider={valider} />
-    </modaleChangementAffichage.Component>
   );
 }

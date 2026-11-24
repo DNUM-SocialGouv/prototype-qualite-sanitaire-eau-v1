@@ -10,6 +10,3 @@ export const modaleAccueil = createModal({
   id: "avertissement-prototype",
   isOpenedByDefault: !accepteAuChargement && !dansLeCadre,
 });
-
-/** Même contenu, rouvert depuis le pied de page pour changer d'affichage : fermable (Fermer, Échap). */
-export const modaleChangementAffichage = createModal({ id: "changer-affichage", isOpenedByDefault: false });

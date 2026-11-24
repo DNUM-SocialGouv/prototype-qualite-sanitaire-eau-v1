@@ -5,11 +5,10 @@ import { SkipLinks } from "@codegouvfr/react-dsfr/SkipLinks";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
-import { AvertissementPrototype, ChangementAffichage } from "./AvertissementPrototype";
+import { AvertissementPrototype } from "./AvertissementPrototype";
 import { BandeauAvis } from "./BandeauAvis";
-import { modaleChangementAffichage } from "./modalesAccueil";
-import { dansLeCadre, demanderChangementAffichage, REQUETE_GRAND_ECRAN } from "../lib/cadreMobile";
-import { useDesktop, useMediaQuery } from "../lib/useMediaQuery";
+import { dansLeCadre } from "../lib/cadreMobile";
+import { useDesktop } from "../lib/useMediaQuery";
 
 const brandTop = (
   <>
@@ -25,16 +24,7 @@ const brandTop = (
 
 const homeLinkProps = { to: "/", title: "Accueil - Qualité sanitaire des eaux" };
 
-/** Lien « Changer d'affichage » : dans la colonne, la page parente rouvre le choix. */
-const itemChangerAffichage = {
-  text: "Changer d'affichage (mobile / desktop)",
-  buttonProps: dansLeCadre ? { onClick: demanderChangementAffichage } : modaleChangementAffichage.buttonProps,
-};
-
 export function Layout() {
-  // Le choix d'affichage n'existe qu'à partir de 576 px (la colonne en fait toujours partie).
-  const grandEcran = useMediaQuery(REQUETE_GRAND_ECRAN);
-  const choixAffichage = dansLeCadre || grandEcran;
   const desktop = useDesktop();
   const { pathname } = useLocation();
   return (
@@ -82,17 +72,11 @@ export function Layout() {
           { text: "Données personnelles", linkProps: { to: "/donnees-personnelles" } },
           { text: "Gestion des cookies", linkProps: { to: "/gestion-des-cookies" } },
           headerFooterDisplayItem,
-          ...(choixAffichage ? [itemChangerAffichage] : []),
         ]}
       />
       <Display />
-      {/* Dans la colonne, la page parente porte ces modales : jamais deux modales à la fois. */}
-      {!dansLeCadre && (
-        <>
-          <AvertissementPrototype />
-          <ChangementAffichage />
-        </>
-      )}
+      {/* Dans la colonne, la page parente porte la modale d'accueil : jamais deux modales à la fois. */}
+      {!dansLeCadre && <AvertissementPrototype />}
       <ScrollRestoration />
     </>
   );

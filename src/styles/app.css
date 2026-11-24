@@ -759,6 +759,22 @@ html.cadre-mobile body {
   border: 0;
 }
 
+/* Bascule Desktop / Mobile (cf. NOTES.md) : pastille blanche fixée en bas à droite de l'écran,
+ * au-dessus de la carte (z-index 1000) mais sous les modales DSFR (1750). */
+.bascule-affichage {
+  position: fixed;
+  z-index: 1500;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.25rem;
+  background-color: var(--background-default-grey);
+  box-shadow: var(--raised-shadow);
+}
+
+.bascule-affichage .fr-segmented {
+  display: block;
+}
+
 /* ---------- Modale d'accueil (avertissement prototype) ---------- */
 
 /* Modale volontairement bloquante : pas de bouton « Fermer » (exception validée, cf. NOTES.md). */

@@ -34,11 +34,3 @@ export function ouvrirLiensExternesHorsDuCadre() {
     true,
   );
 }
-
-/** Message envoyé par l'iframe pour rouvrir, dans la page parente, le choix de l'affichage. */
-export type MessageChangerAffichage = { type: "changer-affichage" };
-
-export function demanderChangementAffichage() {
-  const message: MessageChangerAffichage = { type: "changer-affichage" };
-  window.parent.postMessage(message, window.location.origin);
-}
