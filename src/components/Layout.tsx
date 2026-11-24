@@ -58,15 +58,15 @@ export function Layout() {
           </>
         }
         serviceTagline="Suivez la qualité de l'eau en France"
-        // Desktop : accès rapide « Carte » (maquette desktop) ; les paramètres d'affichage restent dans le pied de page.
         // Desktop : pas d'accès rapide « Carte » (demande de l'utilisateur) ; les paramètres d'affichage sont dans le pied de page.
         quickAccessItems={desktop ? [] : [headerFooterDisplayItem]}
       />
       <main id="contenu" tabIndex={-1}>
         <Outlet />
       </main>
-      {/* Desktop : bandeau « Je donne mon avis », sauf sur l'écran carte (plein écran, pied de page hors de la vue). */}
-      {desktop && pathname !== "/carte" && <BandeauAvis />}
+      {/* Bandeau « Je donne mon avis », permanent au-dessus du pied de page (maquettes desktop et mobile),
+          sauf sur l'écran carte. */}
+      {pathname !== "/carte" && <BandeauAvis mobile={!desktop} />}
       <Footer
         id="footer"
         brandTop={brandTop}

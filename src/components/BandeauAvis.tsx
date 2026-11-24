@@ -1,15 +1,17 @@
 import { fr } from "@codegouvfr/react-dsfr";
 
 /**
- * Bandeau « Je donne mon avis » (maquette desktop), au-dessus du pied de page. Le bouton est le
- * dispositif officiel Services Publics+ (image fournie), hors composants DSFR (cf. NOTES.md).
+ * Bandeau « Je donne mon avis », au-dessus du pied de page. Le bouton est le dispositif officiel
+ * Services Publics+ (image fournie), hors composants DSFR (cf. NOTES.md).
+ * Desktop : texte à gauche, bouton à droite. Mobile (maquette « Bandeau JDMA / Mobile ») : texte,
+ * puis bouton centré dessous.
  */
-export function BandeauAvis() {
+export function BandeauAvis({ mobile }: { mobile?: boolean }) {
   return (
-    <section className="bandeau-avis" aria-labelledby="titre-bandeau-avis">
+    <section className={`bandeau-avis${mobile ? " bandeau-avis--mobile" : ""}`} aria-labelledby="titre-bandeau-avis">
       <div className={fr.cx("fr-container")}>
         <div className={fr.cx("fr-grid-row")}>
-          <div className={`${fr.cx("fr-col-8", "fr-col-offset-2")} bandeau-avis__contenu`}>
+          <div className={`${fr.cx(mobile ? "fr-col-12" : "fr-col-8", !mobile && "fr-col-offset-2")} bandeau-avis__contenu`}>
             <div>
               <h2 id="titre-bandeau-avis" className={fr.cx("fr-h6", "fr-mb-1w")}>
                 Aidez-nous à améliorer ce service !

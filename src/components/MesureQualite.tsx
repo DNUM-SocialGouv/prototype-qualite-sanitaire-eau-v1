@@ -11,7 +11,7 @@ export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan
   const boutonVolet = useBoutonVolet();
   const { conformes, depassements } = bilanPrelevements(codeUdi);
   return (
-    <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-mesure">
+    <section aria-labelledby="titre-mesure">
       <h2 id="titre-mesure" className={fr.cx(desktop ? "fr-h2" : "fr-h4")}>
         Mesure de la qualité de votre eau
       </h2>
@@ -19,9 +19,9 @@ export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan
       <div className={cx(desktop && fr.cx("fr-col-6"))}>
       <h3 className={fr.cx(desktop ? "fr-text--lg" : "fr-text--md", "fr-text--bold", "fr-mb-1w")}>Bilan 2025</h3>
       <NoteQualite note="A" libelle="Eau de bonne qualité" />
-      <p className={fr.cx(desktop ? "fr-text--md" : "fr-text--sm")}>6 prélèvements, aucun dépassement</p>
+      <p className={fr.cx(desktop ? "fr-text--md" : "fr-text--sm", !desktop && "fr-mb-2w")}>6 prélèvements, aucun dépassement</p>
       </div>
-      {!desktop && <hr className={fr.cx("fr-pb-3w")} />}
+      {!desktop && <hr className={fr.cx("fr-pb-2w")} />}
       <div className={cx(desktop && fr.cx("fr-col-6"), desktop && "mesure-qualite__suivi")}>
       <h3 className={fr.cx(desktop ? "fr-text--lg" : "fr-text--md", "fr-text--bold", "fr-mb-1w")}>
         Suivi 2026{" "}
@@ -29,48 +29,30 @@ export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan
           En cours
         </Badge>
       </h3>
-      {desktop ? (
-        // Desktop (maquette) : nombre suivi d'un badge DSFR.
-        <ul className={fr.cx("fr-raw-list", "fr-mb-2w")}>
-          <li className={cx("ligne-badge", fr.cx("fr-mb-1w"))}>
-            <strong>{conformes}</strong>
-            <Badge severity="success" noIcon>
-              {`Prélèvement${conformes > 1 ? "s" : ""} conforme${conformes > 1 ? "s" : ""}`}
-            </Badge>
-          </li>
-          {depassements > 0 && (
-            <li className="ligne-badge">
-              <strong>{depassements}</strong>
-              <Badge severity="warning" noIcon>
-                {`Dépassement${depassements > 1 ? "s" : ""} de limite`}
-              </Badge>
-            </li>
-          )}
-        </ul>
-      ) : (
-      <ul className={fr.cx("fr-raw-list", "fr-text--sm", "fr-mb-2w")}>
-        <li className="ligne-icone">
-          <span className={`${fr.cx("fr-icon-checkbox-circle-fill", "fr-icon--sm")} fr-text-default--info`} aria-hidden="true" />
-          <span>
-            <strong>{conformes}</strong> prélèvement{conformes > 1 ? "s" : ""} conforme{conformes > 1 ? "s" : ""}
-          </span>
+      {/* Maquettes : nombre suivi d'un badge DSFR. */}
+      <ul className={fr.cx("fr-raw-list", "fr-mb-2w")}>
+        <li className={cx("ligne-badge", fr.cx("fr-mb-1w"))}>
+          <strong>{conformes}</strong>
+          <Badge severity="success" noIcon>
+            {`Prélèvement${conformes > 1 ? "s" : ""} conforme${conformes > 1 ? "s" : ""}`}
+          </Badge>
         </li>
         {depassements > 0 && (
-          <li className="ligne-icone">
-            <span className={`${fr.cx("fr-icon-warning-fill", "fr-icon--sm")} fr-text-default--warning`} aria-hidden="true" />
-            <span>
-              <strong>{depassements}</strong> dépassement{depassements > 1 ? "s" : ""} de limite réglementaire
-            </span>
+          <li className="ligne-badge">
+            <strong>{depassements}</strong>
+            <Badge severity="warning" noIcon>
+              {`Dépassement${depassements > 1 ? "s" : ""} de limite`}
+            </Badge>
           </li>
         )}
       </ul>
-      )}
+
       <p className={`${fr.cx(desktop ? "fr-text--md" : "fr-text--sm")} fr-text-mention--grey`}>
         La note 2026 sera attribuée en cours d’année 2027, une fois tous les prélèvements réalisés et interprétés.
       </p>
       <ButtonsGroup
         inlineLayoutWhen={desktop ? "always" : "never"}
-        buttonsSize={desktop ? "large" : "medium"}
+        buttonsSize="large"
         buttons={[
           {
             children: "Voir le détail des analyses",

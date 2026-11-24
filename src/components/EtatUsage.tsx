@@ -1,8 +1,5 @@
-import { useState } from "react";
 import { Highlight } from "@codegouvfr/react-dsfr/Highlight";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
-import { Alert } from "@codegouvfr/react-dsfr/Alert";
-import { ButtonsGroup } from "@codegouvfr/react-dsfr/ButtonsGroup";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
 import { cx } from "@codegouvfr/react-dsfr/tools/cx";
@@ -50,84 +47,51 @@ const ETATS: Record<
 /** État d'usage de l'eau du secteur : mise en avant DSFR, bordure à la couleur de l'état (cf. NOTES.md). */
 export function EtatUsage({ statut, desktop }: { statut: StatutSecteur; /** Mise en page de la maquette desktop (`EtatUsageDesktop`). */ desktop?: boolean }) {
   const boutonVolet = useBoutonVolet();
-  const [raccordement, setRaccordement] = useState(false);
   const etat = ETATS[statut];
 
   if (desktop) return <EtatUsageDesktop statut={statut} />;
 
+  // Mobile (maquette mobile, Figma 5575:94526) : éléments espacés de 16 px. Pour un usage autorisé,
+  // la conclusion (« Population générale : … ») suit directement le titre de l'usage.
   return (
-    <Highlight bodyAs="div" className={cx("etat-usage", `etat-usage--${statut}`, fr.cx("fr-mb-6w", "fr-ml-0"))} classes={{ content: "etat-usage__contenu" }}>
+    <Highlight bodyAs="div" className={cx("etat-usage", `etat-usage--${statut}`, fr.cx("fr-mb-0", "fr-ml-0", "fr-py-2w"))} classes={{ content: "etat-usage__contenu" }}>
       <Badge severity={etat.badge.severite} className={fr.cx("fr-mb-2w")}>
         {etat.badge.libelle}
       </Badge>
-      {etat.depuis && <p className={`${fr.cx("fr-text--sm")} fr-text-mention--grey`}>{etat.depuis}</p>}
+      {etat.depuis && <p className={`${fr.cx("fr-text--sm", "fr-mb-2w")} fr-text-mention--grey`}>{etat.depuis}</p>}
       {etat.concernes && (
         <>
           <h2 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>Qui est concerné ?</h2>
-          <ul className={fr.cx("fr-text--sm")}>
+          <ul className={fr.cx("fr-text--sm", "fr-mb-2w")}>
             {etat.concernes.map((c) => (
               <li key={c}>{c}</li>
             ))}
           </ul>
         </>
       )}
-      <div>
       {etat.usages?.map((usage) => (
         <div key={usage.nom} className={fr.cx("fr-mb-2w")}>
-          <div className="etat-usage__usage">
+          <div className={cx("etat-usage__usage", usage.autorisation !== "autorise" && fr.cx("fr-mb-1v"))}>
             <h2 className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-0")}>{usage.nom}</h2>
             <Badge small severity={BADGES_USAGE[usage.autorisation].severite} noIcon>
               {BADGES_USAGE[usage.autorisation].libelle}
             </Badge>
           </div>
-          <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{usage.description}</p>
+          {usage.autorisation !== "autorise" && <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{usage.description}</p>}
         </div>
       ))}
-      </div>
-      <p className={fr.cx("fr-text--sm")}>{etat.conclusion}</p>
-      <hr className={fr.cx("fr-pb-3w")} />
-      <p className={fr.cx("fr-text--sm")}>
-        Les consignes de votre mairie restent prioritaires.{" "}
-        <button className={cx(fr.cx("fr-link", "fr-text--sm", "fr-icon-arrow-right-line", "fr-link--icon-right"), "lien-bouton")} {...boutonVolet({ type: "mairie" }, "ouvrir-mairie-etat")}>
-          Suivre les infos locales
-        </button>
+      <p className={fr.cx("fr-text--sm", "fr-mb-2w")}>{etat.conclusion}</p>
+      <p className={cx(fr.cx("fr-text--sm", "fr-mb-2w"), "texte-italique", "fr-text-mention--grey")}>
+        Les consignes de votre mairie restent prioritaires.
+        <br />
+        Ces informations concernent les foyers raccordés au réseau public.
       </p>
-      <p className={fr.cx("fr-text--sm", "fr-mb-0")}>
-        Ces informations concernent les foyers raccordés au réseau public.{" "}
-        <button
-          type="button"
-          className={cx(fr.cx("fr-link", "fr-text--sm", "fr-icon-arrow-right-line", "fr-link--icon-right"), "lien-bouton")}
-          aria-expanded={raccordement}
-          onClick={() => setRaccordement(true)}
-        >
-          Vérifier mon raccordement
-        </button>
-      </p>
-      <div role="status">
-        {raccordement && (
-          <Alert
-            small
-            severity="info"
-            description="La vérification du raccordement sera bientôt disponible."
-            closable
-            onClose={() => setRaccordement(false)}
-            className={fr.cx("fr-mt-2w")}
-          />
-        )}
-      </div>
       {statut !== "aucune" && (
         <>
-          <hr className={fr.cx("fr-mt-3w", "fr-pb-3w")} />
-          <ButtonsGroup
-            inlineLayoutWhen="never"
-            buttons={[
-              {
-                children: `Origine de cette ${statut === "interdiction" ? "interdiction" : "restriction"}`,
-                priority: "secondary",
-                nativeButtonProps: boutonVolet({ type: "origine" }, "ouvrir-origine"),
-              },
-            ]}
-          />
+          <hr className={fr.cx("fr-pb-2w")} />
+          <Button priority="secondary" size="large" nativeButtonProps={boutonVolet({ type: "origine" }, "ouvrir-origine")}>
+            {`Origine de cette ${statut === "interdiction" ? "interdiction" : "restriction"}`}
+          </Button>
         </>
       )}
     </Highlight>

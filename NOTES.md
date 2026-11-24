@@ -227,3 +227,22 @@ Maquette `maquettes/desktop-bandeau-avis.png` (Figma 5541:100132 « Bandeau JDMA
 ## Maquettes à compléter
 
 - `accueil-mobile.webp` (169 px de large) est illisible : version en taille réelle attendue.
+
+## Écarts avec les maquettes — Fiche du secteur mobile (v2)
+
+Maquette `maquettes/mobile-fiche-udi-restriction.png` (Figma 5575:94519, Lille Centre avec restriction). Les autres statuts suivent la même mise en page. Sections pleine largeur, fond blanc ou lavande (`fr-background-alt--blue-france`), marges de 32 px en haut et 40 px en bas, dans l'ordre de la maquette :
+- **Restriction** :
+  - mise en avant DSFR, éléments espacés de 16 px ;
+  - pour un usage autorisé (« Hygiène et entretien »), la description n'est plus affichée : la conclusion (« Population générale : … ») suit directement, comme la maquette. Un usage interdit ou déconseillé garde sa description ;
+  - mentions en italique grise, sans liens ;
+  - bouton « Origine de cette… » en taille LG, à sa largeur.
+  **Écart de contenu, suivant la maquette** : les liens « Suivre les infos locales » et « Vérifier mon raccordement » sont retirés aussi en mobile. Le volet Mairie reste accessible par « Votre mairie ». La vérification du raccordement n'est plus proposée.
+- **Avis sanitaire** (fond lavande, remplace « Suivi sanitaire ») : titre `fr-h4`, « Dernière conclusion sanitaire » (h3, 18 px gras), la conclusion en texte simple (14 px) et la note en italique grise (12 px). Plus de CallOut. Puis « Contact & liens utiles » dans la même section : les tuiles DSFR des contacts empilées et séparées par des filets (même présentation qu'en desktop, sans retrait), titres en 18 px, descriptions en 14 px.
+- **Mesure de la qualité** : compteurs « nombre + badge DSFR », comme en desktop ; bouton « Voir le détail des analyses » en taille LG, pleine largeur.
+- **Votre secteur** (fond lavande) :
+  - mini-carte aux proportions de la maquette (310 × 283), légende à 24 px ;
+  - étapes avec pastilles de 28 px, 8 px sous chaque libellé, 24 px entre les étapes ;
+  - lien du gestionnaire en `fr-link--sm`.
+- **Questions fréquentes** : lien « Voir toutes les questions » ajouté sous les accordéons.
+- **Bandeau « Je donne mon avis » en mobile** (maquette « Bandeau JDMA / Mobile », décrit dans Figma comme permanent, « juste au-dessus du pied de page ») : texte puis bouton centré, 32 px en haut et en bas. Il est affiché sur toutes les pages mobiles, sauf l'écran carte.
+- **Écarts gardés** : badge « Prototype » dans l'en-tête (absent de la maquette), marges latérales DSFR de 16 px (20 px sur la maquette), « Traitement appliqué » (« Traitement » sur la maquette), nombre de dépassements issu des données (3 au lieu de 1).

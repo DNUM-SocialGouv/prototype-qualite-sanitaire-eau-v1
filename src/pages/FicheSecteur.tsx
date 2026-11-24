@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import type { InfosCommune } from "../lib/communes";
 import type { Secteur } from "../lib/secteurs";
 import { Link, useParams } from "react-router-dom";
-import { CallOut } from "@codegouvfr/react-dsfr/CallOut";
 import { fr } from "@codegouvfr/react-dsfr";
 import { EnConstruction } from "./EnConstruction";
 import { VoletsFiche } from "../components/VoletsFiche";
@@ -87,7 +86,7 @@ export function FicheSecteur() {
       <Link to={lienRetour} className={fr.cx("fr-link", "fr-icon-arrow-left-line", "fr-link--icon-left")}>
         Changer d’adresse
       </Link>
-      <h1 className={fr.cx("fr-mt-3w", desktop ? "fr-mb-3v" : "fr-mb-1w")}>{nom}</h1>
+      <h1 className={fr.cx(desktop ? "fr-mt-3w" : "fr-mt-4w", desktop ? "fr-mb-3v" : "fr-mb-1w")}>{nom}</h1>
       <p className={fr.cx(desktop ? "fr-text--md" : "fr-text--sm", desktop ? "fr-mb-3w" : "fr-mb-4w")}>
         {communes.length > 0 ? (
           <>
@@ -109,52 +108,46 @@ export function FicheSecteur() {
     );
   }
 
+  // Mobile (maquette mobile, Figma 5575:94519) : sections pleine largeur, fond blanc ou lavande,
+  // marges de 32 px en haut et 40 px en bas.
   return (
     <VoletsFiche codeUdi={id} statut={statut} infos={infos}>
-      <div className={fr.cx("fr-container", "fr-pt-3w", "fr-pb-6w")}>
-        <div className={fr.cx("fr-grid-row")}>
-          <div className={fr.cx("fr-col-12", "fr-col-lg-8")}>
-            {enTete}
-
-            <EtatUsage statut={statut} />
-
-            <section className={fr.cx("fr-mb-6w")} aria-labelledby="titre-suivi">
-              <h2 id="titre-suivi" className={fr.cx("fr-h4")}>
-                Suivi sanitaire
-              </h2>
-              <CallOut
-                title="Dernière conclusion sanitaire"
-                titleAs="h3"
-                colorVariant="blue-ecume"
-                bodyAs="div"
-                classes={{ title: fr.cx("fr-text--lg") }}
-              >
-                <p className={fr.cx("fr-text--sm", "fr-mb-0")}>{CONCLUSIONS[statut]}</p>
-                <p className={`${fr.cx("fr-text--xs", "fr-mt-2w", "fr-mb-0")} fr-text-mention--grey`}>
-                  <em>
-                    {NOTE_CONCLUSION}
-                  </em>
-                </p>
-              </CallOut>
-            </section>
-
-            <MesureQualite codeUdi={id} />
-
-            <VotreSecteur secteur={secteur} infos={infos} />
-
-            <section className={fr.cx("fr-mb-6w")} aria-labelledby="titre-faq-fiche">
-              <h2 id="titre-faq-fiche" className={fr.cx("fr-h4")}>
-                Questions fréquentes
-              </h2>
-              <div className={fr.cx("fr-accordions-group")}>
-                {QUESTIONS_FICHE}
-              </div>
-            </section>
-
-            <ContactsUtiles infos={infos} />
-          </div>
+      <div className={fr.cx("fr-container", "fr-pt-3w", "fr-pb-5w")}>
+        {enTete}
+        <EtatUsage statut={statut} />
+      </div>
+      <div className="fr-background-alt--blue-france">
+        <div className={fr.cx("fr-container", "fr-pt-4w", "fr-pb-5w")}>
+          <section className={fr.cx("fr-mb-4w")} aria-labelledby="titre-suivi">
+            <h2 id="titre-suivi" className={fr.cx("fr-h4", "fr-mb-4w")}>
+              Avis sanitaire
+            </h2>
+            <h3 className={fr.cx("fr-text--lg", "fr-text--bold", "fr-mb-1w")}>Dernière conclusion sanitaire</h3>
+            <p className={fr.cx("fr-text--sm", "fr-mb-3w")}>{CONCLUSIONS[statut]}</p>
+            <p className={`${fr.cx("fr-text--xs", "fr-mb-0")} fr-text-mention--grey`}>
+              <em>{NOTE_CONCLUSION}</em>
+            </p>
+          </section>
+          <ContactsUtiles infos={infos} />
         </div>
       </div>
+      <div className={fr.cx("fr-container", "fr-pt-4w", "fr-pb-5w")}>
+        <MesureQualite codeUdi={id} />
+      </div>
+      <div className="fr-background-alt--blue-france">
+        <div className={fr.cx("fr-container", "fr-pt-4w", "fr-pb-5w")}>
+          <VotreSecteur secteur={secteur} infos={infos} />
+        </div>
+      </div>
+      <section className={fr.cx("fr-container", "fr-pt-4w", "fr-pb-5w")} aria-labelledby="titre-faq-fiche">
+        <h2 id="titre-faq-fiche" className={fr.cx("fr-h4")}>
+          Questions fréquentes
+        </h2>
+        <div className={fr.cx("fr-accordions-group", "fr-mb-3w")}>{QUESTIONS_FICHE}</div>
+        <Link to="/faq" className={fr.cx("fr-link", "fr-icon-arrow-right-line", "fr-link--icon-right")}>
+          Voir toutes les questions
+        </Link>
+      </section>
     </VoletsFiche>
   );
 }

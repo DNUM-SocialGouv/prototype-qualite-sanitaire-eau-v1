@@ -28,11 +28,11 @@ export function VotreSecteur({ secteur, infos, desktop }: Props) {
   // Desktop (maquette) : libellés et textes en taille normale, titres des étapes en grand.
   const petit = desktop ? "fr-text--md" : "fr-text--sm";
   const titre = desktop ? "fr-text--lg" : undefined;
-  const libelle = desktop ? "fr-mb-1w" : "fr-mb-0";
+  const libelle = "fr-mb-1w";
 
   return (
-    <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-secteur">
-      {/* Desktop : titre plus grand et étapes en plus gros caractères (maquette desktop). */}
+    <section aria-labelledby="titre-secteur">
+      {/* Desktop : titre plus grand et étapes en plus gros caractères (maquettes). */}
       <h2 id="titre-secteur" className={fr.cx(desktop ? "fr-h2" : "fr-h4")}>
         Votre secteur
       </h2>
@@ -49,24 +49,24 @@ export function VotreSecteur({ secteur, infos, desktop }: Props) {
       </div>
       </div>
       <div className={cx(desktop && fr.cx("fr-col-4"))}>
-      {/* Desktop : espacements de la maquette (8 px sous chaque libellé, 24 px entre les étapes). */}
+      {/* Espacements des maquettes : 8 px sous chaque libellé, 24 px entre les étapes. */}
       <ol className={cx("etapes-eau", desktop && "etapes-eau--desktop", fr.cx(desktop ? "fr-mt-0" : "fr-mt-3w"))}>
         <li>
           <p className={`${fr.cx(petit, libelle)} fr-text-mention--grey`}>Origine de l’eau (captage)</p>
-          <p className={fr.cx(titre, "fr-text--bold", desktop && "fr-mb-0")}>{infos.captage}</p>
+          <p className={fr.cx(titre, "fr-text--bold", "fr-mb-0")}>{infos.captage}</p>
         </li>
         <li>
           <p className={`${fr.cx(petit, libelle)} fr-text-mention--grey`}>Traitement appliqué</p>
           <p className={fr.cx(titre, "fr-text--bold", "fr-mb-1w")}>{infos.traitement.nom}</p>
-          <p className={fr.cx(petit, desktop && "fr-mb-0")}>{infos.traitement.description}</p>
+          <p className={fr.cx(petit, "fr-mb-0")}>{infos.traitement.description}</p>
         </li>
         <li>
           <p className={`${fr.cx(petit, libelle)} fr-text-mention--grey`}>Distribution</p>
           <p className={fr.cx(petit, "fr-mb-0")}>Maîtrise d’ouvrage / exploitant</p>
           <p className={fr.cx(titre, "fr-text--bold", "fr-mb-1w")}>{infos.exploitant}</p>
           <p className={fr.cx(petit, "fr-mb-0")}>Gestionnaire distribution</p>
-          <p className={fr.cx(desktop && "fr-mb-0")}>
-            <a className={fr.cx("fr-link")} href={infos.gestionnaire.url} target="_blank" rel="noopener noreferrer" title={`${infos.gestionnaire.nom} - nouvelle fenêtre`}>
+          <p className={fr.cx("fr-mb-0")}>
+            <a className={fr.cx("fr-link", !desktop && "fr-link--sm")} href={infos.gestionnaire.url} target="_blank" rel="noopener noreferrer" title={`${infos.gestionnaire.nom} - nouvelle fenêtre`}>
               {infos.gestionnaire.nom}
             </a>
           </p>

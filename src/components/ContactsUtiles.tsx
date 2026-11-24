@@ -3,10 +3,10 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { useBoutonVolet } from "../lib/contexteVolets";
 import type { InfosCommune } from "../lib/communes";
 
-/** Section « Contact & liens utiles » : tuiles DSFR horizontales. */
+/** Section « Contact & liens utiles » : tuiles DSFR présentées en liens empilés, séparés par des filets (maquettes). */
 type Props = {
   infos: InfosCommune;
-  /** Desktop (maquette desktop) : 3 liens empilés, séparés par des filets, à côté de l'avis sanitaire. */
+  /** Desktop (maquette desktop) : liens en retrait de 16 px, descriptions en taille normale. */
   desktop?: boolean;
 };
 
@@ -14,12 +14,12 @@ export function ContactsUtiles({ infos, desktop }: Props) {
   const boutonVolet = useBoutonVolet();
   const externe = (url: string, nom: string) => ({ href: url, target: "_blank", rel: "noopener noreferrer", title: `${nom} - nouvelle fenêtre` });
   return (
-    <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-contacts">
+    <section aria-labelledby="titre-contacts">
       {/* Desktop : la maquette n'affiche pas de titre, il reste pour les lecteurs d'écran. */}
-      <h2 id="titre-contacts" className={fr.cx(desktop ? "fr-sr-only" : "fr-h4")}>
+      <h2 id="titre-contacts" className={fr.cx(desktop ? "fr-sr-only" : "fr-h4", "fr-mb-3w")}>
         {desktop ? "Pour aller plus loin" : "Contact & liens utiles"}
       </h2>
-      <ul className={`${fr.cx("fr-raw-list")} liste-tuiles${desktop ? " liste-tuiles--colonne" : ""}`}>
+      <ul className={`${fr.cx("fr-raw-list")} liste-tuiles liste-tuiles--colonne${desktop ? " liste-tuiles--retrait" : ""}`}>
         <li>
           <Tile
             title="Votre mairie"
@@ -29,7 +29,7 @@ export function ContactsUtiles({ infos, desktop }: Props) {
             small
             noBorder
             noBackground
-            classes={desktop ? { title: fr.cx("fr-text--lg"), desc: fr.cx("fr-text--md") } : undefined}
+            classes={{ title: fr.cx("fr-text--lg"), desc: fr.cx(desktop ? "fr-text--md" : "fr-text--sm") }}
             enlargeLinkOrButton
             buttonProps={boutonVolet({ type: "mairie" }, "ouvrir-mairie-contacts")}
           />
@@ -43,7 +43,7 @@ export function ContactsUtiles({ infos, desktop }: Props) {
             small
             noBorder
             noBackground
-            classes={desktop ? { title: fr.cx("fr-text--lg"), desc: fr.cx("fr-text--md") } : undefined}
+            classes={{ title: fr.cx("fr-text--lg"), desc: fr.cx(desktop ? "fr-text--md" : "fr-text--sm") }}
             enlargeLinkOrButton
             linkProps={externe(infos.distributeur, "Distributeur")}
           />
@@ -57,7 +57,7 @@ export function ContactsUtiles({ infos, desktop }: Props) {
             small
             noBorder
             noBackground
-            classes={desktop ? { title: fr.cx("fr-text--lg"), desc: fr.cx("fr-text--md") } : undefined}
+            classes={{ title: fr.cx("fr-text--lg"), desc: fr.cx(desktop ? "fr-text--md" : "fr-text--sm") }}
             enlargeLinkOrButton
             linkProps={externe(infos.ars.url, infos.ars.nom)}
           />
