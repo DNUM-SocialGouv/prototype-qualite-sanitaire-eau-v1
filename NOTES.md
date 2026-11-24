@@ -57,7 +57,7 @@
 - **Mémorisation** : le mode est mémorisé avec l'acceptation dans `sessionStorage` (try/catch, `src/lib/affichage.ts`). Pendant la session de l'onglet, la modale ne revient pas, et le mode est conservé au rechargement et sur les liens directs.
 - **Changer d'affichage : bascule fixe** (demande de l'utilisateur), à partir de 576 px et une fois l'avertissement accepté. Elle remplace le lien « Changer d'affichage » du pied de page et sa modale, supprimés :
   - contrôle segmenté DSFR en petite taille, deux options en icônes seules (`fr-icon-computer-line` / `fr-icon-smartphone-line`), libellés « Affichage desktop » / « Affichage mobile » lus par les lecteurs d'écran et affichés en infobulle ;
-  - posé dans une pastille blanche avec ombre (`--raised-shadow`), fixée à 16 px du coin bas droit de l'écran, au-dessus de la carte mais sous les modales ;
+  - sur fond blanc, sans cadre autour (seule la bordure grise du contrôle), fixé à 16 px du coin bas droit de l'écran, au-dessus de la carte mais sous les modales. Légère ombre (`--raised-shadow`) en mode Desktop seulement ;
   - en mode Mobile, il est porté par la page parente, donc dans la bande noire, hors de la colonne ;
   - au clic, le mode change aussitôt sur la même page, et il est mémorisé pour l'onglet. Jamais affiché sur téléphone (moins de 576 px).
   Icônes seules plutôt qu'icône + texte : la version avec texte (environ 200 px) chevauchait la bande des territoires de la carte desktop en 1440 px.

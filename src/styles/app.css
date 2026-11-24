@@ -759,15 +759,20 @@ html.cadre-mobile body {
   border: 0;
 }
 
-/* Bascule Desktop / Mobile (cf. NOTES.md) : pastille blanche fixée en bas à droite de l'écran,
+/* Bascule Desktop / Mobile (cf. NOTES.md) : contrôle segmenté sur fond blanc, fixé en bas à droite de l'écran,
  * au-dessus de la carte (z-index 1000) mais sous les modales DSFR (1750). */
 .bascule-affichage {
   position: fixed;
   z-index: 1500;
   right: 1rem;
   bottom: 1rem;
-  padding: 0.25rem;
+  border-radius: 0.25rem; /* même arrondi que le contrôle segmenté DSFR */
   background-color: var(--background-default-grey);
+}
+
+/* Desktop : légère ombre, pour la distinguer quand elle est posée sur la carte. Sur la bande noire
+ * (mode Mobile), seule la bordure grise du contrôle segmenté reste. */
+html:not(.cadre-mobile) .bascule-affichage {
   box-shadow: var(--raised-shadow);
 }
 
