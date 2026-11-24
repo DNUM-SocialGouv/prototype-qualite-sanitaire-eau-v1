@@ -127,7 +127,7 @@ export function BandeTerritoires({ valeur, onChoix }: PropsBande) {
   const id = useId();
   return (
     <section className="bande-territoires" aria-labelledby={`${id}-titre`}>
-      <h2 id={`${id}-titre`} className={fr.cx("fr-text--md", "fr-text--bold", "fr-mb-1w")}>
+      <h2 id={`${id}-titre`} className={fr.cx("fr-text--sm", "fr-text--bold", "fr-mb-1v")}>
         Territoires
       </h2>
       <GrilleTerritoires

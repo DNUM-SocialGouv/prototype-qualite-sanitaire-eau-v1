@@ -925,36 +925,45 @@ html.cadre-mobile body {
 
 /* Territoires en desktop : bande blanche posée en bas de la carte, 10 vignettes sur une ligne
  * (maquette « bande sur la carte », cf. NOTES.md). La mention © IGN reste visible en dessous. */
+/* Réduite à la demande de l'utilisateur (environ 812 × 148 px au lieu de 982 × 188), alignée à gauche
+ * en bas de la carte. */
 .bande-territoires {
   position: absolute;
   z-index: 1000; /* au-dessus des couches Leaflet */
-  right: 1.75rem;
   bottom: 1.5rem;
   left: 1.5rem;
-  padding: 0.75rem 0.5rem; /* maquette : 982 × 188 px, titre à 12 px du haut */
+  max-width: calc(100% - 3rem);
+  padding: 0.5rem;
   background-color: var(--background-default-grey);
   box-shadow: var(--raised-shadow);
 }
 
 .selecteur-territoires__groupe--bande {
-  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-columns: repeat(10, 4.75rem);
   gap: 0.25rem;
   padding: 0;
 }
 
-/* Vignettes de la bande (maquette, 93 × 132 px) : silhouette à 16 px du haut, nom à 8 px dessous,
- * centré dans une zone de 2 lignes de 20 px, 12 px en bas. */
+/* Vignettes de la bande, réduites (76 × 104 px au lieu de 93 × 132) : silhouette de 36 px à 8 px du haut,
+ * nom en 12 px à 4 px dessous, centré (3 lignes de 16 px pour « Saint-Pierre-et-Miquelon »), 8 px en bas. */
 .selecteur-territoires__groupe--bande label {
   display: grid;
-  grid-template-rows: 3.5rem 2.5rem;
-  row-gap: 0.5rem;
+  grid-template-rows: 2.25rem minmax(2rem, auto); /* noms sur 1 à 3 lignes */
+  row-gap: 0.25rem;
   align-items: center;
   justify-items: center;
-  padding: 0.9375rem 0.25rem 0.6875rem; /* 16 px et 12 px bordure de 1 px comprise */
+  min-height: 0;
+  padding: 0.4375rem 0.125rem; /* 8 px en haut et en bas, bordure de 1 px comprise */
+}
+
+.selecteur-territoires__groupe--bande .selecteur-territoires__silhouette {
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 .selecteur-territoires__groupe--bande .selecteur-territoires__nom {
-  line-height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 /* Desktop : la légende des zones passe en haut à gauche, la bande occupe le bas de la carte. */
