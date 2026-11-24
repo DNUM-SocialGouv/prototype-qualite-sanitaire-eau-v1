@@ -37,6 +37,16 @@ export function CarteIgn({ children, surCarte, controlesGauche, emprise, onPrete
     if (carte) onPrete?.(carte);
   }, [carte, onPrete]);
 
+  // Leaflet ne suit que le redimensionnement de la fenêtre : on lui signale aussi les changements de
+  // taille du conteneur (hauteur de l'écran carte desktop fixée après coup, colonne mobile…), sinon
+  // le cadrage des territoires se calcule sur une mauvaise hauteur.
+  useEffect(() => {
+    if (!carte) return;
+    const observateur = new ResizeObserver(() => carte.invalidateSize());
+    observateur.observe(carte.getContainer());
+    return () => observateur.disconnect();
+  }, [carte]);
+
   // Panneau des réglages : fermeture par Échap (focus rendu au bouton) et par clic en dehors.
   useEffect(() => {
     if (!reglagesOuverts) return;

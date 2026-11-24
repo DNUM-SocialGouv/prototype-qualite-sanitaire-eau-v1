@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CircleMarker } from "react-leaflet";
-import type { Map as CarteLeaflet } from "leaflet";
+import type { FitBoundsOptions, Map as CarteLeaflet } from "leaflet";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { fr } from "@codegouvfr/react-dsfr";
@@ -17,6 +17,19 @@ import { TOUS_LES_SECTEURS } from "../lib/secteurs";
 import { VUE_FRANCE } from "../lib/carte";
 import { TERRITOIRE_PAR_DEFAUT, territoire as trouverTerritoire, type IdTerritoire } from "../lib/territoires";
 import type { TypeEau } from "../lib/recherche";
+
+/**
+ * Marges de cadrage d'un territoire. En desktop, la bande des territoires (en bas) et les boutons de la
+ * carte (à droite) sont posés sur la carte : on les exclut pour que le territoire reste entièrement visible.
+ */
+function margesCadrage(carte: CarteLeaflet): FitBoundsOptions {
+  const conteneur = carte.getContainer().closest<HTMLElement>(".carte-ign") ?? carte.getContainer();
+  const bande = conteneur.querySelector<HTMLElement>(".bande-territoires");
+  const controles = conteneur.querySelector<HTMLElement>(".carte-ign__controles:not(.carte-ign__controles--gauche)");
+  const bas = bande ? conteneur.getBoundingClientRect().bottom - bande.getBoundingClientRect().top + 16 : 16;
+  const droite = controles ? conteneur.getBoundingClientRect().right - controles.getBoundingClientRect().left + 16 : 16;
+  return { paddingTopLeft: [16, 16], paddingBottomRight: [droite, bas] };
+}
 
 /** Zoom à partir duquel les secteurs de distribution s’affichent (une agglomération et sa région). */
 const ZOOM_SECTEURS = 8;
@@ -52,7 +65,7 @@ export function Carte() {
     carte?.invalidateSize();
     if (aRecentrer.current) {
       aRecentrer.current = false;
-      carte?.fitBounds(trouverTerritoire(territoire).emprise, { padding: [16, 16] });
+      if (carte) carte.fitBounds(trouverTerritoire(territoire).emprise, margesCadrage(carte));
     }
     document.getElementById(idBoutonTerritoires)?.focus();
   }, [selecteurOuvert, carte, territoire, idBoutonTerritoires]);
@@ -71,8 +84,15 @@ export function Carte() {
   const desktop = useDesktop();
   const recentrer = (id: IdTerritoire) => {
     setTerritoire(id);
-    carte?.fitBounds(trouverTerritoire(id).emprise, { padding: [16, 16] });
+    if (carte) carte.fitBounds(trouverTerritoire(id).emprise, margesCadrage(carte));
   };
+
+  // Desktop : au chargement, la France hexagonale est cadrée au-dessus de la bande des territoires.
+  useEffect(() => {
+    if (!carte || !desktop) return;
+    const image = requestAnimationFrame(() => carte.fitBounds(trouverTerritoire(TERRITOIRE_PAR_DEFAUT).emprise, margesCadrage(carte)));
+    return () => cancelAnimationFrame(image);
+  }, [carte, desktop]);
 
   const onLocalisation = useCallback(
     (lat: number, lon: number) => {
