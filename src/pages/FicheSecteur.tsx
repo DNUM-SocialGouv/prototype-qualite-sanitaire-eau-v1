@@ -188,16 +188,9 @@ function FicheDesktop({ enTete, codeUdi, statut, secteur, infos }: PropsDesktop)
                 <h2 id="titre-suivi" className={fr.cx("fr-h2")}>
                   Avis sanitaire
                 </h2>
-                {/* CallOut DSFR par défaut (filet bleu France), sur fond blanc comme la maquette (cf. NOTES.md). */}
-                <CallOut
-                  title="Dernière conclusion sanitaire"
-                  titleAs="h3"
-                  bodyAs="div"
-                  className="callout-blanc"
-                  classes={{ title: fr.cx("fr-text--lg") }}
-                >
-                  <p className={fr.cx("fr-text--md", "fr-mb-0")}>{CONCLUSIONS[statut]}</p>
-                </CallOut>
+                {/* Maquette mise à jour : conclusion en texte simple, sans mise en avant. */}
+                <h3 className={fr.cx("fr-text--lg", "fr-text--bold", "fr-mb-1w")}>Dernière conclusion sanitaire</h3>
+                <p className={fr.cx("fr-text--md", "fr-mb-3w")}>{CONCLUSIONS[statut]}</p>
                 <p className={`${fr.cx("fr-text--md", "fr-mb-0")} fr-text-mention--grey`}>
                   <em>{NOTE_CONCLUSION}</em>
                 </p>

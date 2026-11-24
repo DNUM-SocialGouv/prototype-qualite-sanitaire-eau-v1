@@ -1057,10 +1057,3 @@ html.cadre-mobile body {
   left: 1rem;
   top: 2.25rem;
 }
-
-/* Conclusion sanitaire de la fiche desktop (maquette) : CallOut DSFR par défaut, sur fond blanc,
- * avec 24 px de marge intérieure (exception, cf. NOTES.md). */
-.fr-callout.callout-blanc {
-  padding: 1.5rem;
-  background-color: var(--background-default-grey);
-}
