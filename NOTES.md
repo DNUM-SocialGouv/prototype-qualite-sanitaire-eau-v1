@@ -162,9 +162,9 @@ Maquette `maquettes/desktop-fiche-udi-restriction.png` (Figma 5541:99214, « Res
   - note en taille normale, bouton « Voir le détail des analyses » en taille LG.
 - **Votre secteur** :
   - titre en taille `fr-h2` ;
-  - mini-carte de 736 × 460 px avec sa légende ;
-  - les 4 étapes : pastilles de 32 px en bleu « information » DSFR (`--background-flat-info`, #0063cb, comme la maquette, aussi en mobile), libellés et textes en taille normale, titres en `fr-text--lg`.
-  **Écarts gardés** : l'étape 2 s'appelle « Traitement appliqué » (« Traitement » sur la maquette) et la légende est à 8 px de la carte (16 px sur la maquette).
+  - mini-carte de 736 × 462 px, légende à 16 px dessous en taille normale (Figma 5561:109607) ;
+  - les 4 étapes : pastilles de 32 px en bleu « information » DSFR (`--background-flat-info`, #0063cb, comme la maquette, aussi en mobile), libellés et textes en taille normale, titres en `fr-text--lg`. Espacements de la maquette : 8 px sous chaque libellé, 24 px entre les étapes, colonne de 496 px de haut.
+  **Écarts gardés** : l'étape 2 s'appelle « Traitement appliqué » (« Traitement » sur la maquette).
 - **Questions fréquentes** : même composant que l'accueil (`FaqDeuxColonnes`), avec les marges de la fiche (56 px en haut, 64 px en bas).
 - **Taille des textes (desktop uniquement)**, à la demande de l'utilisateur : la date « Depuis le… », la conclusion (« Population générale : … »), la liste « Qui est concerné ? », les descriptions des usages, les descriptions des contacts (Votre mairie, Distributeur, ARS) et « 6 prélèvements, aucun dépassement » passent en `fr-text--md` (16 px), comme la ligne des communes. En mobile, ces textes restent en `fr-text--sm`.
 

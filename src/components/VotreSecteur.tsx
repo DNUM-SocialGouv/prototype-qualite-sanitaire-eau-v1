@@ -28,6 +28,7 @@ export function VotreSecteur({ secteur, infos, desktop }: Props) {
   // Desktop (maquette) : libellés et textes en taille normale, titres des étapes en grand.
   const petit = desktop ? "fr-text--md" : "fr-text--sm";
   const titre = desktop ? "fr-text--lg" : undefined;
+  const libelle = desktop ? "fr-mb-1w" : "fr-mb-0";
 
   return (
     <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-secteur">
@@ -44,33 +45,34 @@ export function VotreSecteur({ secteur, infos, desktop }: Props) {
           <GeoJSON data={{ type: "FeatureCollection", features: [secteur] } as FeatureCollection} style={{ className: "carte-ign__zone" }} />
         </CarteIgn>
       </div>
-      <LegendeZone horsCarte texte="Zone = réseau de distribution d’eau" />
+      <LegendeZone horsCarte grande={desktop} texte="Zone = réseau de distribution d’eau" />
       </div>
       </div>
       <div className={cx(desktop && fr.cx("fr-col-4"))}>
+      {/* Desktop : espacements de la maquette (8 px sous chaque libellé, 24 px entre les étapes). */}
       <ol className={cx("etapes-eau", desktop && "etapes-eau--desktop", fr.cx(desktop ? "fr-mt-0" : "fr-mt-3w"))}>
         <li>
-          <p className={`${fr.cx(petit, "fr-mb-0")} fr-text-mention--grey`}>Origine de l’eau (captage)</p>
-          <p className={fr.cx(titre, "fr-text--bold")}>{infos.captage}</p>
+          <p className={`${fr.cx(petit, libelle)} fr-text-mention--grey`}>Origine de l’eau (captage)</p>
+          <p className={fr.cx(titre, "fr-text--bold", desktop && "fr-mb-0")}>{infos.captage}</p>
         </li>
         <li>
-          <p className={`${fr.cx(petit, "fr-mb-0")} fr-text-mention--grey`}>Traitement appliqué</p>
+          <p className={`${fr.cx(petit, libelle)} fr-text-mention--grey`}>Traitement appliqué</p>
           <p className={fr.cx(titre, "fr-text--bold", "fr-mb-1w")}>{infos.traitement.nom}</p>
-          <p className={fr.cx(petit)}>{infos.traitement.description}</p>
+          <p className={fr.cx(petit, desktop && "fr-mb-0")}>{infos.traitement.description}</p>
         </li>
         <li>
-          <p className={`${fr.cx(petit, "fr-mb-0")} fr-text-mention--grey`}>Distribution</p>
+          <p className={`${fr.cx(petit, libelle)} fr-text-mention--grey`}>Distribution</p>
           <p className={fr.cx(petit, "fr-mb-0")}>Maîtrise d’ouvrage / exploitant</p>
           <p className={fr.cx(titre, "fr-text--bold", "fr-mb-1w")}>{infos.exploitant}</p>
           <p className={fr.cx(petit, "fr-mb-0")}>Gestionnaire distribution</p>
-          <p>
+          <p className={fr.cx(desktop && "fr-mb-0")}>
             <a className={fr.cx("fr-link")} href={infos.gestionnaire.url} target="_blank" rel="noopener noreferrer" title={`${infos.gestionnaire.nom} - nouvelle fenêtre`}>
               {infos.gestionnaire.nom}
             </a>
           </p>
         </li>
         <li>
-          <p className={`${fr.cx(petit, "fr-mb-0")} fr-text-mention--grey`}>Votre robinet</p>
+          <p className={`${fr.cx(petit, libelle)} fr-text-mention--grey`}>Votre robinet</p>
           <p className={fr.cx(titre, "fr-text--bold", "fr-mb-0")}>≈ {infos.habitantsParSecteur.toLocaleString("fr-FR")} habitants desservis</p>
         </li>
       </ol>

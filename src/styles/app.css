@@ -1013,8 +1013,9 @@ html.cadre-mobile body {
   padding-left: 3rem;
 }
 
+/* Mini-carte desktop : 736 × 462 px à 1440 px, comme la maquette. */
 .carte-fiche--desktop {
-  height: 28.75rem;
+  height: 28.875rem;
 }
 
 /* ---------- Bandeau « Je donne mon avis » (desktop) ---------- */
@@ -1039,6 +1040,10 @@ html.cadre-mobile body {
  * titres en grand (18 px). */
 .etapes-eau--desktop > li {
   padding: 0 0 1.5rem 3rem;
+}
+
+.etapes-eau--desktop > li:last-child {
+  padding-bottom: 0;
 }
 
 .etapes-eau--desktop > li::before {
