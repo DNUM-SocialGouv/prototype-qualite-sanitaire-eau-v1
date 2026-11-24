@@ -175,24 +175,25 @@ function FicheDesktop({ enTete, codeUdi, statut, secteur, infos }: PropsDesktop)
   // Maquette desktop « Restriction et avis face à face » (Figma 5541:98512).
   return (
     <>
-      <div className={fr.cx("fr-container", "fr-py-4w")}>
+      <div className={fr.cx("fr-container", "fr-pt-4w", "fr-pb-8w")}>
         {enTete}
         <EtatUsage statut={statut} desktop />
       </div>
       <div className="fr-background-alt--blue-france">
-        <div className={fr.cx("fr-container", "fr-py-4w")}>
+        <div className={fr.cx("fr-container", "fr-pt-7w", "fr-pb-8w")}>
           <div className={fr.cx("fr-grid-row", "fr-grid-row--gutters", "fr-grid-row--middle")}>
             <div className={fr.cx("fr-col-8")}>
-              {/* 736 px de large à 1440 px (56 px de retrait à droite), comme la maquette. */}
-              <section className={`${fr.cx("fr-p-4w", "fr-mr-7w")} encadre-ombre`} aria-labelledby="titre-suivi">
-                <h2 id="titre-suivi" className={fr.cx("fr-h4")}>
+              {/* Sans encadré, 704 px de large à 1440 px (88 px de retrait à droite), comme la maquette. */}
+              <section className={fr.cx("fr-mr-11w")} aria-labelledby="titre-suivi">
+                <h2 id="titre-suivi" className={fr.cx("fr-h2")}>
                   Avis sanitaire
                 </h2>
+                {/* CallOut DSFR par défaut (filet bleu France), sur fond blanc comme la maquette (cf. NOTES.md). */}
                 <CallOut
                   title="Dernière conclusion sanitaire"
                   titleAs="h3"
-                  colorVariant="blue-ecume"
                   bodyAs="div"
+                  className="callout-blanc"
                   classes={{ title: fr.cx("fr-text--lg") }}
                 >
                   <p className={fr.cx("fr-text--md", "fr-mb-0")}>{CONCLUSIONS[statut]}</p>
@@ -208,7 +209,7 @@ function FicheDesktop({ enTete, codeUdi, statut, secteur, infos }: PropsDesktop)
           </div>
         </div>
       </div>
-      <div className={fr.cx("fr-container", "fr-py-8w")}>
+      <div className={fr.cx("fr-container", "fr-pt-7w", "fr-pb-8w")}>
         <MesureQualite codeUdi={codeUdi} desktop />
       </div>
       <div className="fr-background-alt--blue-france">

@@ -984,7 +984,7 @@ html.cadre-mobile body {
 /* Tuiles DSFR présentées en liens (maquette desktop, exception cf. NOTES.md) : sans la barre bleue
  * du bas, texte aligné à gauche, icône à droite et centrée verticalement. */
 .liste-tuiles--colonne .fr-tile {
-  padding: 1.5rem 2.5rem 1.5rem 0;
+  padding: 1.5rem 3.5rem 1.5rem 1rem; /* texte en retrait de 16 px, icône à 16 px du bord droit */
 }
 
 .liste-tuiles--colonne .fr-tile.fr-enlarge-link .fr-tile__content,
@@ -1002,14 +1002,15 @@ html.cadre-mobile body {
 .liste-tuiles--colonne .fr-tile.fr-enlarge-button .fr-tile__title button::after {
   --icon-size: 1.5rem;
   top: 50%;
-  right: 0.5rem;
+  right: 1rem;
   bottom: auto;
   transform: translateY(-50%);
 }
 
 /* Mesure de la qualité : filet vertical entre le bilan et le suivi. */
-/* Suivi 2026 : décalé de 48 px, sans filet (maquette desktop). */
+/* Suivi 2026 : filet vertical à gauche, contenu décalé de 48 px (maquette desktop). */
 .mesure-qualite__suivi {
+  border-left: 1px solid var(--border-default-grey);
   padding-left: 3rem;
 }
 
@@ -1055,4 +1056,11 @@ html.cadre-mobile body {
 .etapes-eau--desktop > li:not(:last-child)::after {
   left: 1rem;
   top: 2.25rem;
+}
+
+/* Conclusion sanitaire de la fiche desktop (maquette) : CallOut DSFR par défaut, sur fond blanc,
+ * avec 24 px de marge intérieure (exception, cf. NOTES.md). */
+.fr-callout.callout-blanc {
+  padding: 1.5rem;
+  background-color: var(--background-default-grey);
 }

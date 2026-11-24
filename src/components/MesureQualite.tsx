@@ -7,12 +7,12 @@ import { useBoutonVolet } from "../lib/contexteVolets";
 import { bilanPrelevements } from "../lib/analyses";
 
 /** Section « Mesure de la qualité de votre eau » : bilan 2025 noté, bilan 2026 en cours. */
-export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan et suivi côte à côte, compteurs en badges (maquette desktop). */ desktop?: boolean }) {
+export function MesureQualite({ codeUdi, desktop }: { codeUdi: string; /** Bilan et suivi côte à côte, séparés par un filet, compteurs en badges (maquette desktop). */ desktop?: boolean }) {
   const boutonVolet = useBoutonVolet();
   const { conformes, depassements } = bilanPrelevements(codeUdi);
   return (
     <section className={fr.cx(desktop ? "fr-mb-0" : "fr-mb-6w")} aria-labelledby="titre-mesure">
-      <h2 id="titre-mesure" className={fr.cx("fr-h4")}>
+      <h2 id="titre-mesure" className={fr.cx(desktop ? "fr-h2" : "fr-h4")}>
         Mesure de la qualité de votre eau
       </h2>
       <div className={cx(desktop && fr.cx("fr-grid-row", "fr-grid-row--gutters"))}>
