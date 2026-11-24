@@ -775,6 +775,11 @@ html.cadre-mobile body {
   display: block;
 }
 
+/* Icônes seules : sans la marge prévue entre l'icône et le texte, pour que l'icône soit centrée. */
+.bascule-affichage .fr-segmented__element label::before {
+  margin: 0;
+}
+
 /* ---------- Modale d'accueil (avertissement prototype) ---------- */
 
 /* Modale volontairement bloquante : pas de bouton « Fermer » (exception validée, cf. NOTES.md). */
